@@ -1,10 +1,3 @@
-# Produto – Exercício (B/S/E/R + Mermaid)
-
-Este repositório contém a classe **Produto** e o diagrama de classe em **Mermaid**.
-
-## Diagrama de Classe
-
-```mermaid
 classDiagram
     class Produto {
         - int id
@@ -12,15 +5,9 @@ classDiagram
         - double valorUnitario
         - UnidadeMedida unidadeMedida
         - Categoria categoria
-        - LocalDate dataCadastro
+        - Date dataCadastro
 
-        + void editarValor(double novoValor)
-        + int getId()
-        + String getNome()
-        + double getValorUnitario()
-        + UnidadeMedida getUnidadeMedida()
-        + Categoria getCategoria()
-        + LocalDate getDataCadastro()
+        + String editarValor(double valorNovo)
     }
 
     enum UnidadeMedida {
