@@ -2,7 +2,7 @@
 
 Este repositório contém a classe **Produto** e o diagrama de classe em **Mermaid**.
 
-## Diagrama de Classe (Mermaid)
+## Diagrama de Classe
 
 ```mermaid
 classDiagram
@@ -12,15 +12,15 @@ classDiagram
         - double valorUnitario
         - UnidadeMedida unidadeMedida
         - Categoria categoria
-        - Date dataCadastro
+        - LocalDate dataCadastro
 
-        + String editarValor(double novoValor)
+        + void editarValor(double novoValor)
         + int getId()
         + String getNome()
         + double getValorUnitario()
         + UnidadeMedida getUnidadeMedida()
         + Categoria getCategoria()
-        + Date getDataCadastro()
+        + LocalDate getDataCadastro()
     }
 
     enum UnidadeMedida {
@@ -38,3 +38,6 @@ classDiagram
         PROTEINA
         OUTROS
     }
+
+    Produto --> UnidadeMedida
+    Produto --> Categoria
