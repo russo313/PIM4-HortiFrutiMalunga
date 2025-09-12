@@ -11,7 +11,8 @@ classDiagram
         + String editarValor(double valorNovo)
     }
 
-    enum UnidadeMedida {
+    class UnidadeMedida {
+        <<enumeration>>
         KILO
         UNIDADE
         GRAMA
@@ -19,7 +20,8 @@ classDiagram
         DUZIA
     }
 
-    enum Categoria {
+    class Categoria {
+        <<enumeration>>
         FRUTA
         LEGUME
         VERDURA
