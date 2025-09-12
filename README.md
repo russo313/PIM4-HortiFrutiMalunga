@@ -1,3 +1,4 @@
+```mermaid
 classDiagram
     class Produto {
         - int id
@@ -28,3 +29,4 @@ classDiagram
 
     Produto --> UnidadeMedida
     Produto --> Categoria
+```
