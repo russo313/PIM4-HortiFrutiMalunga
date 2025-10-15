@@ -1,0 +1,46 @@
+﻿<section class="page">
+  <h2>Vendas</h2>
+  <ng-container *ngIf="sales$ | async as sales; else loading">
+    <ng-container *ngIf="sales.length; else empty">
+      <div class="sale-list">
+        <mat-card class="sale" *ngFor="let sale of sales; trackBy: trackBySale">
+          <mat-card-header>
+            <mat-card-title>Venda {{ sale.date | date:'short' }}</mat-card-title>
+            <mat-card-subtitle>ID: {{ sale.id }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p class="total">Total: {{ sale.totalAmount | currency:'BRL':'symbol':'1.2-2' }}</p>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Produto</th>
+                  <th>Qtd</th>
+                  <th>Preço unitário</th>
+                  <th>Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of sale.items">
+                  <td>{{ item.productName }}</td>
+                  <td>{{ item.quantity }}</td>
+                  <td>{{ item.unitPrice | currency:'BRL':'symbol':'1.2-2' }}</td>
+                  <td>{{ item.subtotal | currency:'BRL':'symbol':'1.2-2' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="center">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  </ng-template>
+
+  <ng-template #empty>
+    <p class="muted">Nenhuma venda registrada.</p>
+  </ng-template>
+</section>

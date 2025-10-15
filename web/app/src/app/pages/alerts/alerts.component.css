@@ -1,0 +1,10 @@
+﻿.refresh {
+  margin-bottom: 1rem;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
+

@@ -1,0 +1,26 @@
+﻿<section class="page">
+  <h2>Clientes</h2>
+  <ng-container *ngIf="customers$ | async as customers; else loading">
+    <ng-container *ngIf="customers.length; else empty">
+      <div class="card-grid">
+        <mat-card *ngFor="let customer of customers">
+          <mat-card-title>{{ customer.name }}</mat-card-title>
+          <mat-card-content>
+            <p>Telefone: {{ customer.phone || '-' }}</p>
+            <p>E-mail: {{ customer.email || '-' }}</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="center">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  </ng-template>
+
+  <ng-template #empty>
+    <p class="muted">Nenhum cliente cadastrado.</p>
+  </ng-template>
+</section>

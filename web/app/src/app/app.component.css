@@ -1,0 +1,23 @@
+﻿.main-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.brand {
+  font-weight: 600;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+main {
+  min-height: calc(100vh - 64px);
+  background: #f5f5f5;
+}
+
+mat-toolbar a.active {
+  font-weight: bold;
+}
+

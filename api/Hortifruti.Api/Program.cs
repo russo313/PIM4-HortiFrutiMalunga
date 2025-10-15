@@ -1,4 +1,4 @@
-using System.Text;
+﻿using System.Text;
 using Hortifruti.Api.Data;
 using Hortifruti.Api.Options;
 using Hortifruti.Api.Services;
@@ -26,6 +26,9 @@ builder.Host.UseSerilog((ctx, services, configuration) =>
 });
 
 builder.Services.AddControllers();
+builder.Services.AddScoped<StockService>();
+builder.Services.AddScoped<SalesService>();
+builder.Services.AddScoped<ReportService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -37,7 +40,7 @@ builder.Services.AddDbContext<HortifrutiContext>(options =>
     var connectionString = builder.Configuration.GetConnectionString("SqlServer");
     if (string.IsNullOrWhiteSpace(connectionString))
     {
-        throw new InvalidOperationException("Configure a ConnectionStrings:SqlServer no appsettings ou variável de ambiente.");
+        throw new InvalidOperationException("Configure ConnectionStrings:SqlServer no appsettings ou variavel de ambiente.");
     }
 
     options.UseSqlServer(connectionString);
@@ -100,3 +103,10 @@ app.MapControllers();
 app.MapHealthChecks("/health", new HealthCheckOptions());
 
 app.Run();
+
+
+
+
+
+
+

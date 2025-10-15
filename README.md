@@ -1,107 +1,91 @@
-<<<<<<< HEAD
-```mermaid
-classDiagram
-    class Produto {
-        - int id
-        - String nome
-        - double valorUnitario
-        - UnidadeMedida unidadeMedida
-        - Categoria categoria
-        - Date dataCadastro
+﻿# Hortifruti Malunga – API
 
-        + String editarValor(double valorNovo)
-    }
-
-    class UnidadeMedida {
-        <<enumeration>>
-        KILO
-        UNIDADE
-        GRAMA
-        LITRO
-        DUZIA
-    }
-
-    class Categoria {
-        <<enumeration>>
-        FRUTA
-        LEGUME
-        VERDURA
-        PROTEINA
-        OUTROS
-    }
-
-    Produto --> UnidadeMedida
-    Produto --> Categoria
-```
-
-
-## BORD 
-```mermaid
-classDiagram
-    Cliente "1" --> "N" Pedido
-    Pedido "1" --> "N" ItemPedido
-    ItemPedido "N" --> "1" Produto
-    Produto --> Categoria
-    Produto --> UnidadeMedida
-    Estoque "1" --> "N" Produto
-
-    class Cliente
-    class Pedido
-    class ItemPedido
-    class Produto
-    class Categoria
-    class UnidadeMedida
-    class Estoque
-=======
-# Hortifruti Malunga - Sprint 0
-
-Projeto acad�mico (PIM IV) desenvolvido em C# com ASP.NET Core. O objetivo da sprint 0 � garantir que o ambiente sobe com banco SQL Server, API dispon�vel e base de dados m�nima para evoluir nas pr�ximas sprints.
+Projeto acadêmico (PIM IV) em C# / ASP.NET Core. A API expõe os recursos do hortifruti para ser consumida pelo front Angular (próximas sprints).
 
 ## Estrutura
-- `api/Hortifruti.Api` � API ASP.NET Core (Controllers, Data, Models, Services).
-- `docs/` � materiais vindos dos PIMs anteriores.
-- `docker-compose.yml` � sobe SQL Server + API.
+- `api/Hortifruti.Api` – API ASP.NET Core, EF Core e autenticação JWT.
+- `web/` – espaço reservado para o front (Sprint 2 em diante).
+- `docs/` – materiais do PIM I/II/III/IV.
+- `.github/workflows/ci.yml` – pipeline de build (restore + build).
 
-## Pr�-requisitos
-- Docker Desktop + WSL2 habilitado.
-- .NET SDK 9.0 (ou superior compat�vel).
-- Git.
+## Pré-requisitos
+- Windows 10/11 64 bits com Docker Desktop + WSL2
+- .NET SDK 9.0
+- Git
+- (Opcional) Azure Data Studio ou DBeaver para acessar o SQL Server
 
-## Como executar (Sprint 0)
-1. Copie o arquivo de exemplo e ajuste as vari�veis:
-   ```bash
-   cp .env.example .env
-   ```
-2. Suba os servi�os:
-   ```bash
-   docker compose up -d --build
-   ```
-3. Verifique os endpoints principais:
-   - Health check: `http://localhost:8080/health`
-   - Status: `http://localhost:8080/api/status`
-4. Login para obter JWT:
-   ```http
-   POST http://localhost:8080/api/auth/login
-   {
-     "email": "admin@hortifruti.local",
-     "password": "Admin@123"
-   }
-   ```
-   Use o token nas requisi��es autenticadas (ex.: `GET /api/products`).
+## Executar localmente
+```bash
+cp .env.example .env
+# ajuste as senhas se desejar
 
-## Banco de dados
-- SQL Server roda no cont�iner `hortifruti-sqlserver`.
-- Scripts autom�ticos criam as tabelas e inserem:
-  - Usu�rio admin (`admin@hortifruti.local`).
-  - Categorias e produtos exemplo (unidade e peso).
+docker compose up -d --build
+```
 
-## Pr�ximos passos (sprints seguintes)
-- Implementar CRUD de categorias, produtos e clientes.
-- Adicionar migrations, testes automatizados e pipeline CI/CD.
-- Evoluir regras de estoque, vendas, alertas e relat�rios conforme plano de a��o.
+Endpoints principais:
+- `GET http://localhost:8080/health`
+- `GET http://localhost:8080/api/status`
+- `POST http://localhost:8080/api/auth/login`
+  ```json
+  {
+    "email": "admin@hortifruti.local",
+    "password": "Admin@123"
+  }
+  ```
 
-## Refer�ncias
-- Documentos do PIM (dispon�veis em `docs/pim4tudao-...`).
-- Plano de a��o com backlog completo.
->>>>>>> 1e52c75 (Sprint 0 base)
+Use o token JWT retornado para acessar as demais rotas (`Authorization: Bearer ...`).
+
+## Recursos disponíveis
+| Sprint | Recurso | Método | Rota | Observações |
+|--------|---------|--------|------|-------------|
+| 1 | Categorias | GET | `/api/categories` | Lista todas |
+| 1 | Categorias | GET | `/api/categories/{id}` | |
+| 1 | Categorias | POST | `/api/categories` | Admin/Gerente |
+| 1 | Categorias | PUT | `/api/categories/{id}` | Admin/Gerente |
+| 1 | Categorias | DELETE | `/api/categories/{id}` | Bloqueia exclusão com produtos |
+| 1 | Produtos | GET | `/api/products` | Inclui categoria e estoque mínimo |
+| 1 | Produtos | GET | `/api/products/{id}` | |
+| 1 | Produtos | POST | `/api/products` | Valida UNIDADE/PESO, unidade e categoria |
+| 1 | Produtos | PUT | `/api/products/{id}` | |
+| 1 | Produtos | DELETE | `/api/products/{id}` | Admin/Gerente |
+| 1 | Clientes | GET | `/api/customers` | |
+| 1 | Clientes | GET | `/api/customers/{id}` | |
+| 1 | Clientes | POST | `/api/customers` | Normaliza telefone/e-mail |
+| 1 | Clientes | PUT | `/api/customers/{id}` | |
+| 1 | Clientes | DELETE | /api/customers/{id} | Admin/Gerente |
+| 2 | Vendas | GET | /api/sales | Lista vendas com itens |
+| 2 | Vendas | GET | /api/sales/{id} | Detalhe |
+| 2 | Vendas | POST | /api/sales | Baixa automatica de estoque |
+| 3 | Estoque | GET | `/api/stock/movements` | Auditoria com filtros (produto, período, motivo) |
+| 3 | Estoque | GET | `/api/stock/balance/{produtoId}` | Saldo atual calculado |
+| 3 | Estoque | POST | `/api/stock/manual-decrease` | Estoquista+ registra baixa manual |
+| 4 | Validade | GET | `/api/validity/next?days=7` | Consulta produtos que vencem em N dias |
+| 4 | Alertas | GET | `/api/validity/alerts` | Lista alertas gerados |
+| 4 | Alertas | PATCH | `/api/validity/alerts/{id}/read` | Marca alerta como lido |
+| 4 | Validade | POST | `/api/validity/run?days=7` | (Admin/Gerente) força geração manual |
+| 5 | Relatórios | GET | `/api/reports/sales?format=json|csv|pdf` | Agrupado por dia/mês/produto |
+
+### Regras aplicadas
+- Produtos aceitam `SaleType` `Unit` ou `Weight`; estoque mínimo decimal apenas para PESO; UNIDADE exige valores inteiros.
+- Unidade de medida limitada a `un`, `kg`, `g`, `maco`, `pct` (case insensitive).
+- Código de barras é limpado, mantendo apenas dígitos.
+- Telefone de cliente é armazenado somente com números; e-mail é normalizado em minúsculas.
+- Baixa manual retorna 422 quando saldo insuficiente ou quantidade invalida.
+- Alertas de validade são gerados automaticamente (job 24h) e podem ser executados manualmente.
+- Vendas realizam baixa automática de estoque e registram movimentos para auditoria.
+
+## Seeds iniciais
+- Usuário admin (`admin@hortifruti.local` / `Admin@123`).
+- Categorias “Hortalicas” e “Frutas” com dois produtos exemplo (com validade).
+- Dois clientes fictícios.
+- Movimento de estoque inicial (+50) para cada produto.
+
+## Próximas sprints\n- Sprint 5: relatórios / exportações.
+- Sprint 5: relatórios / exportações.
+- Sprint 6: endurecer segurança, backup e UX.
+
+## Referências
+- Plano de ação `docs/pim4tudao-20250830T001202Z-1-001/📌 Plano de Ação – PIM IV (Continuidade).pdf`
+- Orientações oficiais `docs/pim4tudao-20250830T001202Z-1-001/ADS_2025_2_PIM_IV_QUARTO_E_TERCEIRO_SEMESTRES - BRASÍLIA.pdf`
+
 

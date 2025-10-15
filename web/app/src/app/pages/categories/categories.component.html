@@ -1,0 +1,32 @@
+﻿<section class="page">
+  <h2>Categorias</h2>
+
+  <ng-container *ngIf="categories$ | async as categories; else loading">
+    <mat-card *ngIf="categories.length; else empty">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Descrição</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let category of categories">
+            <td>{{ category.name }}</td>
+            <td>{{ category.description || '-' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </mat-card>
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="center">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  </ng-template>
+
+  <ng-template #empty>
+    <p class="muted">Nenhuma categoria cadastrada.</p>
+  </ng-template>
+</section>

@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Hortifruti.Api.Models;
 
 namespace Hortifruti.Api.Data;
@@ -9,6 +9,10 @@ public class HortifrutiContext(DbContextOptions<HortifrutiContext> options) : Db
     public DbSet<Product> Products => Set<Product>();
     public DbSet<Customer> Customers => Set<Customer>();
     public DbSet<User> Users => Set<User>();
+    public DbSet<StockMovement> StockMovements => Set<StockMovement>();
+    public DbSet<ValidityAlert> ValidityAlerts => Set<ValidityAlert>();
+    public DbSet<Sale> Sales => Set<Sale>();
+    public DbSet<SaleItem> SaleItems => Set<SaleItem>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -24,5 +28,23 @@ public class HortifrutiContext(DbContextOptions<HortifrutiContext> options) : Db
         modelBuilder.Entity<Customer>()
             .HasIndex(c => c.Name)
             .HasDatabaseName("IX_Customer_Name");
+
+        modelBuilder.Entity<StockMovement>()
+            .Property(m => m.Quantity)
+            .HasColumnType("decimal(18,3)");
+
+        modelBuilder.Entity<ValidityAlert>()
+            .HasIndex(a => new { a.ProductId, a.ValidUntil })
+            .IsUnique();
+
+        modelBuilder.Entity<Sale>()
+            .HasMany(s => s.Items)
+            .WithOne(i => i.Sale)
+            .HasForeignKey(i => i.SaleId);
+
+        modelBuilder.Entity<SaleItem>()
+            .HasOne(i => i.Product)
+            .WithMany()
+            .HasForeignKey(i => i.ProductId);
     }
 }

@@ -1,4 +1,4 @@
-using BCrypt.Net;
+﻿using BCrypt.Net;
 using Hortifruti.Api.Data;
 using Hortifruti.Api.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -19,7 +19,7 @@ public class AuthController(HortifrutiContext context, TokenService tokenService
         var user = await context.Users.FirstOrDefaultAsync(u => u.Email == request.Email, cancellationToken);
         if (user is null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
         {
-            return Unauthorized(new { message = "Credenciais inválidas." });
+            return Unauthorized(new { message = "Credenciais invalidas." });
         }
 
         var token = tokenService.GenerateToken(user);

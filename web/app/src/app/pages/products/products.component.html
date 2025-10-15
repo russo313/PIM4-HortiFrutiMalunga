@@ -1,0 +1,35 @@
+﻿<section class="page">
+  <h2>Produtos</h2>
+
+  <ng-container *ngIf="products$ | async as products; else loading">
+    <ng-container *ngIf="products.length; else empty">
+      <div class="product-grid">
+        <mat-card *ngFor="let product of products">
+          <mat-card-title>{{ product.name }}</mat-card-title>
+          <mat-card-subtitle>{{ product.categoryName }}</mat-card-subtitle>
+          <mat-card-content>
+            <p>Tipo de venda: {{ product.saleType }}</p>
+            <p>Unidade: {{ product.unitOfMeasure }}</p>
+            <p>Estoque mínimo: {{ product.minimumStock ?? '-' }}</p>
+            <p>Validade: {{ product.expirationDate || '-' }}</p>
+            <mat-chip-set>
+              <mat-chip [color]="product.active ? 'primary' : undefined" [class.inactive-chip]="!product.active">
+                {{ product.active ? 'Ativo' : 'Inativo' }}
+              </mat-chip>
+            </mat-chip-set>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="center">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  </ng-template>
+
+  <ng-template #empty>
+    <p class="muted">Nenhum produto cadastrado.</p>
+  </ng-template>
+</section>

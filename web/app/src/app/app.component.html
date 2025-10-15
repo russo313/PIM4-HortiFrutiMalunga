@@ -1,0 +1,17 @@
+﻿<mat-toolbar color="primary" class="main-toolbar">
+  <span class="brand">HortiFruti Malunga</span>
+  <span class="spacer"></span>
+  <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+    Início
+  </a>
+  <a mat-button routerLink="/categories" routerLinkActive="active">Categorias</a>
+  <a mat-button routerLink="/products" routerLinkActive="active">Produtos</a>
+  <a mat-button routerLink="/customers" routerLinkActive="active">Clientes</a>
+  <a mat-button routerLink="/movements" routerLinkActive="active">Movimentação</a>
+  <a mat-button routerLink="/sales" routerLinkActive="active">Vendas</a>
+  <a mat-button routerLink="/alerts" routerLinkActive="active">Alertas</a>
+</mat-toolbar>
+
+<main>
+  <router-outlet />
+</main>

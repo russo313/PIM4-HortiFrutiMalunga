@@ -1,0 +1,12 @@
+﻿.card-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
+

@@ -1,0 +1,52 @@
+﻿<section class="page">
+  <h2>Alertas de validade</h2>
+
+  <button mat-raised-button color="primary" class="refresh" type="button" (click)="load()">
+    Atualizar
+  </button>
+
+  <div *ngIf="loading(); else content">
+    <div class="center">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  </div>
+
+  <ng-template #content>
+    <ng-container *ngIf="alerts() as list">
+      <mat-card *ngIf="list.length; else empty">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Produto</th>
+              <th>Validade</th>
+              <th>Dias restantes</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let alert of list">
+              <td>{{ alert.productName }}</td>
+              <td>{{ alert.validUntil }}</td>
+              <td>{{ alert.daysRemaining }}</td>
+              <td>
+                <mat-chip [color]="alert.status === 'Read' ? 'accent' : 'warn'" selected>
+                  {{ alert.status === 'Read' ? 'Lido' : 'Novo' }}
+                </mat-chip>
+              </td>
+              <td>
+                <button mat-stroked-button color="primary" type="button" (click)="markAsRead(alert.id)" [disabled]="alert.status === 'Read'">
+                  Marcar como lido
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </mat-card>
+    </ng-container>
+  </ng-template>
+
+  <ng-template #empty>
+    <p class="muted">Nenhum alerta de validade registrado.</p>
+  </ng-template>
+</section>

@@ -7,7 +7,7 @@ WORKDIR /src
 COPY Hortifruti.Api.csproj ./
 RUN dotnet restore
 COPY . .
-RUN dotnet publish -c Release -o /app/publish --no-restore --use-current-runtime --self-contained false
+RUN dotnet publish -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
