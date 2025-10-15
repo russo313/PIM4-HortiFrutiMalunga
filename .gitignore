@@ -1,0 +1,10 @@
+bin/
+obj/
+.vs/
+*.user
+*.suo
+.env
+Dockerfile.*
+logs/
+
+docs/pim4tudao-20250830T001202Z-1-001/

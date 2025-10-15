@@ -1,0 +1,28 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: hortifruti-sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${SQLSERVER_SA_PASSWORD:-Your_password123}
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+
+  api:
+    build:
+      context: ./api/Hortifruti.Api
+    container_name: hortifruti-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__SqlServer: Server=sqlserver,1433;Database=HortifrutiDb;User Id=sa;Password=${SQLSERVER_SA_PASSWORD:-Your_password123};Encrypt=False;TrustServerCertificate=True;
+      Jwt__SecretKey: ${JWT_SECRET_KEY:-alter-me-em-producao}
+    depends_on:
+      - sqlserver
+    ports:
+      - "8080:8080"
+
+volumes:
+  sqlserver-data:
+
