@@ -1,35 +1,126 @@
-﻿<section class="page">
+<section class="page">
   <h2>Produtos</h2>
 
-  <ng-container *ngIf="products$ | async as products; else loading">
-    <ng-container *ngIf="products.length; else empty">
+  <mat-card *ngIf="auth.loggedIn(); else avisoLogin" class="form-card">
+    <form [formGroup]="form" (ngSubmit)="salvar()">
+      <h3>{{ editandoId() ? "Editar produto" : "Novo produto" }}</h3>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="nome" placeholder="Ex.: Banana prata" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Categoria</mat-label>
+        <mat-select formControlName="categoriaId">
+          <mat-option *ngFor="let categoria of categorias()" [value]="categoria.id">
+            {{ categoria.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="linha">
+        <mat-form-field appearance="outline">
+          <mat-label>Tipo de venda</mat-label>
+          <mat-select formControlName="tipoVenda">
+            <mat-option *ngFor="let tipo of saleTypes" [value]="tipo.valor">
+              {{ tipo.descricao }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Unidade</mat-label>
+          <input matInput formControlName="unidadeMedida" placeholder="Ex.: un, kg, maço" />
+        </mat-form-field>
+      </div>
+
+      <div class="linha">
+        <mat-form-field appearance="outline">
+          <mat-label>Estoque mínimo</mat-label>
+          <input matInput formControlName="estoqueMinimo" type="number" step="0.001" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Validade</mat-label>
+          <input matInput formControlName="validade" type="date" />
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Código de barras</mat-label>
+        <input matInput formControlName="codigoBarras" />
+      </mat-form-field>
+
+      <mat-slide-toggle formControlName="ativo">Produto ativo</mat-slide-toggle>
+
+      <div class="form-actions">
+        <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">
+          Salvar
+        </button>
+        <button mat-stroked-button color="accent" type="button" *ngIf="editandoId()" (click)="cancelarEdicao()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </mat-card>
+
+  <ng-template #avisoLogin>
+    <p class="muted">Entre na aplicação para cadastrar ou editar produtos.</p>
+  </ng-template>
+
+  <ng-container *ngIf="produtos(); else carregando">
+    <ng-container *ngIf="produtos().length; else vazio">
       <div class="product-grid">
-        <mat-card *ngFor="let product of products">
-          <mat-card-title>{{ product.name }}</mat-card-title>
-          <mat-card-subtitle>{{ product.categoryName }}</mat-card-subtitle>
+        <mat-card *ngFor="let produto of produtos()">
+          <mat-card-title>{{ produto.name }}</mat-card-title>
+          <mat-card-subtitle>{{ produto.categoryName }}</mat-card-subtitle>
           <mat-card-content>
-            <p>Tipo de venda: {{ product.saleType }}</p>
-            <p>Unidade: {{ product.unitOfMeasure }}</p>
-            <p>Estoque mínimo: {{ product.minimumStock ?? '-' }}</p>
-            <p>Validade: {{ product.expirationDate || '-' }}</p>
+            <p><strong>Tipo de venda:</strong> {{ produto.saleType === "Unit" ? "Unidade" : "Peso" }}</p>
+            <p><strong>Unidade:</strong> {{ produto.unitOfMeasure }}</p>
+            <p><strong>Estoque mínimo:</strong> {{ produto.minimumStock ?? "—" }}</p>
+            <p><strong>Validade:</strong> {{ produto.expirationDate || "—" }}</p>
             <mat-chip-set>
-              <mat-chip [color]="product.active ? 'primary' : undefined" [class.inactive-chip]="!product.active">
-                {{ product.active ? 'Ativo' : 'Inativo' }}
+              <mat-chip
+                [class.chip-sucesso]="produto.active"
+                [class.chip-inativo]="!produto.active"
+              >
+                {{ produto.active ? "Ativo" : "Inativo" }}
               </mat-chip>
             </mat-chip-set>
           </mat-card-content>
+          <mat-card-actions *ngIf="auth.loggedIn()" class="action-buttons">
+            <button
+              mat-icon-button
+              class="acao-icon editar"
+              type="button"
+              aria-label="Editar produto"
+              (click)="editar(produto)"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              class="acao-icon excluir"
+              type="button"
+              aria-label="Excluir produto"
+              (click)="excluir(produto)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-card-actions>
         </mat-card>
       </div>
     </ng-container>
   </ng-container>
 
-  <ng-template #loading>
+  <ng-template #carregando>
     <div class="center">
       <mat-spinner diameter="40"></mat-spinner>
     </div>
   </ng-template>
 
-  <ng-template #empty>
-    <p class="muted">Nenhum produto cadastrado.</p>
+  <ng-template #vazio>
+    <p class="empty-state">Nenhum produto cadastrado.</p>
   </ng-template>
 </section>

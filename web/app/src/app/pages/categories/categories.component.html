@@ -1,32 +1,88 @@
-﻿<section class="page">
+<section class="page">
   <h2>Categorias</h2>
 
-  <ng-container *ngIf="categories$ | async as categories; else loading">
-    <mat-card *ngIf="categories.length; else empty">
+  <mat-card *ngIf="auth.loggedIn(); else avisoLogin" class="form-card">
+    <form [formGroup]="form" (ngSubmit)="salvar()">
+      <h3>{{ editandoId() ? "Editar categoria" : "Nova categoria" }}</h3>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="nome" placeholder="Ex.: Hortaliças" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Descrição</mat-label>
+        <input matInput formControlName="descricao" placeholder="Descrição opcional" />
+      </mat-form-field>
+
+      <div class="form-actions">
+        <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">
+          Salvar
+        </button>
+        <button
+          mat-stroked-button
+          color="accent"
+          type="button"
+          *ngIf="editandoId()"
+          (click)="cancelarEdicao()"
+        >
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </mat-card>
+
+  <ng-template #avisoLogin>
+    <p class="muted">Entre na aplicação para cadastrar ou editar categorias.</p>
+  </ng-template>
+
+  <ng-container *ngIf="categorias(); else carregando">
+    <mat-card *ngIf="categorias().length; else vazio">
       <table class="data-table">
         <thead>
           <tr>
             <th>Nome</th>
             <th>Descrição</th>
+            <th *ngIf="auth.loggedIn()"></th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let category of categories">
-            <td>{{ category.name }}</td>
-            <td>{{ category.description || '-' }}</td>
+          <tr *ngFor="let categoria of categorias()">
+            <td>{{ categoria.name }}</td>
+            <td>{{ categoria.description || "—" }}</td>
+            <td class="action-buttons" *ngIf="auth.loggedIn()">
+              <button
+                mat-icon-button
+                class="acao-icon editar"
+                type="button"
+                aria-label="Editar categoria"
+                (click)="editar(categoria)"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                class="acao-icon excluir"
+                type="button"
+                aria-label="Excluir categoria"
+                (click)="excluir(categoria)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
     </mat-card>
   </ng-container>
 
-  <ng-template #loading>
+  <ng-template #carregando>
     <div class="center">
       <mat-spinner diameter="40"></mat-spinner>
     </div>
   </ng-template>
 
-  <ng-template #empty>
-    <p class="muted">Nenhuma categoria cadastrada.</p>
+  <ng-template #vazio>
+    <p class="empty-state">Nenhuma categoria cadastrada.</p>
   </ng-template>
 </section>

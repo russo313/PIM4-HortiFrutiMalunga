@@ -1,6 +1,17 @@
-﻿.center {
+.form-card {
+  padding: 1.5rem 1.75rem;
   display: flex;
-  justify-content: center;
-  padding: 1rem;
+  flex-direction: column;
+  gap: 1rem;
 }
 
+mat-form-field {
+  display: block;
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}

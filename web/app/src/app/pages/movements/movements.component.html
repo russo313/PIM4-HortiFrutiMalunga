@@ -1,5 +1,6 @@
-﻿<section class="page">
+<section class="page">
   <h2>Movimentação de estoque</h2>
+
   <ng-container *ngIf="movements$ | async as movements; else loading">
     <mat-card *ngIf="movements.length; else empty">
       <table class="data-table">
@@ -16,11 +17,11 @@
         <tbody>
           <tr *ngFor="let move of movements">
             <td>{{ move.productName }}</td>
-            <td>{{ move.type }}</td>
-            <td>{{ move.reason }}</td>
+            <td>{{ tipoDescricao(move.type) }}</td>
+            <td>{{ motivoDescricao(move.reason) }}</td>
             <td>{{ move.quantity }}</td>
-            <td>{{ move.timestamp | date:'short' }}</td>
-            <td>{{ move.note || '-' }}</td>
+            <td>{{ move.timestamp | date: "short" }}</td>
+            <td>{{ observacaoDescricao(move.note) }}</td>
           </tr>
         </tbody>
       </table>
@@ -34,6 +35,6 @@
   </ng-template>
 
   <ng-template #empty>
-    <p class="muted">Nenhuma movimentação registrada.</p>
+    <p class="empty-state">Nenhuma movimentação registrada.</p>
   </ng-template>
 </section>

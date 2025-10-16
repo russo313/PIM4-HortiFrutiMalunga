@@ -17,7 +17,7 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ConnectionStrings__SqlServer: Server=sqlserver,1433;Database=HortifrutiDb;User Id=sa;Password=${SQLSERVER_SA_PASSWORD:-Your_password123};Encrypt=False;TrustServerCertificate=True;
-      Jwt__SecretKey: ${JWT_SECRET_KEY:-alter-me-em-producao}
+      Jwt__SecretKey: ${JWT_SECRET_KEY:-alter-me-para-um-segredo-super-seguro-2025}
     depends_on:
       - sqlserver
     ports:

@@ -1,20 +1,23 @@
-﻿.dashboard {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 1.5rem;
+.dashboard {
+  width: 100%;
+  padding: 0;
+}
+
+.descricao {
+  margin: 0;
+  color: var(--cor-texto-suave);
 }
 
 .cards {
   display: grid;
-  gap: 1rem;
+  gap: 1.25rem;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   margin-top: 1.5rem;
 }
 
 .value {
   display: block;
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #1b5e20;
+  font-size: 2.75rem;
+  font-weight: 700;
+  color: var(--cor-primaria-escura);
 }
-

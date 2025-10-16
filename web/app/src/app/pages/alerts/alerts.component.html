@@ -13,7 +13,7 @@
 
   <ng-template #content>
     <ng-container *ngIf="alerts() as list">
-      <mat-card *ngIf="list.length; else empty">
+      <mat-card *ngIf="list.length; else vazio">
         <table class="data-table">
           <thead>
             <tr>
@@ -21,7 +21,7 @@
               <th>Validade</th>
               <th>Dias restantes</th>
               <th>Status</th>
-              <th></th>
+              <th *ngIf="auth.loggedIn()"></th>
             </tr>
           </thead>
           <tbody>
@@ -34,8 +34,14 @@
                   {{ alert.status === 'Read' ? 'Lido' : 'Novo' }}
                 </mat-chip>
               </td>
-              <td>
-                <button mat-stroked-button color="primary" type="button" (click)="markAsRead(alert.id)" [disabled]="alert.status === 'Read'">
+              <td *ngIf="auth.loggedIn()">
+                <button
+                  mat-stroked-button
+                  color="primary"
+                  type="button"
+                  (click)="markAsRead(alert.id)"
+                  [disabled]="alert.status === 'Read'"
+                >
                   Marcar como lido
                 </button>
               </td>
@@ -46,7 +52,7 @@
     </ng-container>
   </ng-template>
 
-  <ng-template #empty>
+  <ng-template #vazio>
     <p class="muted">Nenhum alerta de validade registrado.</p>
   </ng-template>
 </section>

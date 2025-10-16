@@ -5,6 +5,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { ApiService, ValidityAlert } from "../../services/api.service";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
   selector: "app-alerts",
@@ -15,6 +16,7 @@ import { ApiService, ValidityAlert } from "../../services/api.service";
 })
 export class AlertsComponent {
   private api = inject(ApiService);
+  protected auth = inject(AuthService);
 
   alerts = signal<ValidityAlert[] | null>(null);
   loading = signal(true);
@@ -38,6 +40,9 @@ export class AlertsComponent {
   }
 
   markAsRead(id: string): void {
+    if (!this.auth.loggedIn()) {
+      return;
+    }
     this.api.markAlertRead(id).subscribe({
       next: () => this.load()
     });

@@ -6,15 +6,16 @@ import { CustomersComponent } from "./pages/customers/customers.component";
 import { MovementsComponent } from "./pages/movements/movements.component";
 import { SalesComponent } from "./pages/sales/sales.component";
 import { AlertsComponent } from "./pages/alerts/alerts.component";
+import { LoginComponent } from "./pages/login/login.component";
 
 export const routes: Routes = [
+  { path: "login", component: LoginComponent },
   { path: "", component: DashboardComponent },
   { path: "categories", component: CategoriesComponent },
   { path: "products", component: ProductsComponent },
   { path: "customers", component: CustomersComponent },
   { path: "movements", component: MovementsComponent },
   { path: "sales", component: SalesComponent },
-  { path: "alerts", component: AlertsComponent }
+  { path: "alerts", component: AlertsComponent },
+  { path: "**", redirectTo: "" }
 ];
-
-

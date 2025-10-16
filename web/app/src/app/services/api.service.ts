@@ -66,6 +66,39 @@ export interface Sale {
   items: SaleItem[];
 }
 
+export interface CategoryPayload {
+  name: string;
+  description?: string | null;
+}
+
+export interface ProductPayload {
+  name: string;
+  categoryId: string;
+  saleType: string;
+  unitOfMeasure: string;
+  expirationDate?: string | null;
+  barcode?: string | null;
+  active: boolean;
+  minimumStock?: number | null;
+}
+
+export interface CustomerPayload {
+  name: string;
+  phone?: string | null;
+  email?: string | null;
+}
+
+export interface SaleItemRequest {
+  productId: string;
+  quantity: number;
+  unitPrice: number;
+}
+
+export interface SaleRequest {
+  customerId?: string | null;
+  items: SaleItemRequest[];
+}
+
 @Injectable({ providedIn: "root" })
 export class ApiService {
   private http = inject(HttpClient);
@@ -75,12 +108,48 @@ export class ApiService {
     return this.http.get<Category[]>(`${this.baseUrl}/categories`);
   }
 
+  createCategory(payload: CategoryPayload) {
+    return this.http.post<Category>(`${this.baseUrl}/categories`, payload);
+  }
+
+  updateCategory(id: string, payload: CategoryPayload) {
+    return this.http.put<void>(`${this.baseUrl}/categories/${id}`, payload);
+  }
+
+  deleteCategory(id: string) {
+    return this.http.delete<void>(`${this.baseUrl}/categories/${id}`);
+  }
+
   getProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(`${this.baseUrl}/products`);
   }
 
+  createProduct(payload: ProductPayload) {
+    return this.http.post<Product>(`${this.baseUrl}/products`, payload);
+  }
+
+  updateProduct(id: string, payload: ProductPayload) {
+    return this.http.put<void>(`${this.baseUrl}/products/${id}`, payload);
+  }
+
+  deleteProduct(id: string) {
+    return this.http.delete<void>(`${this.baseUrl}/products/${id}`);
+  }
+
   getCustomers(): Observable<Customer[]> {
     return this.http.get<Customer[]>(`${this.baseUrl}/customers`);
+  }
+
+  createCustomer(payload: CustomerPayload) {
+    return this.http.post<Customer>(`${this.baseUrl}/customers`, payload);
+  }
+
+  updateCustomer(id: string, payload: CustomerPayload) {
+    return this.http.put<void>(`${this.baseUrl}/customers/${id}`, payload);
+  }
+
+  deleteCustomer(id: string) {
+    return this.http.delete<void>(`${this.baseUrl}/customers/${id}`);
   }
 
   getMovements(): Observable<StockMovement[]> {
@@ -99,6 +168,10 @@ export class ApiService {
 
   getSales(): Observable<Sale[]> {
     return this.http.get<Sale[]>(`${this.baseUrl}/sales`);
+  }
+
+  createSale(payload: SaleRequest) {
+    return this.http.post<Sale>(`${this.baseUrl}/sales`, payload);
   }
 
   getUpcoming(days: number): Observable<ValidityAlert[]> {

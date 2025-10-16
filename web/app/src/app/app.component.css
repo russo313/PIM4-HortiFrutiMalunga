@@ -1,23 +1,33 @@
-﻿.main-toolbar {
+.main-toolbar {
   position: sticky;
   top: 0;
   z-index: 10;
+  background: linear-gradient(90deg, rgba(27, 94, 32, 0.98), rgba(51, 105, 30, 0.95));
+  color: #fff;
+  padding: 0 1.75rem;
 }
 
 .brand {
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  font-size: 1.2rem;
 }
 
 .spacer {
   flex: 1 1 auto;
 }
 
-main {
-  min-height: calc(100vh - 64px);
-  background: #f5f5f5;
+mat-toolbar a {
+  color: #e8f5e9;
+  font-weight: 500;
 }
 
 mat-toolbar a.active {
-  font-weight: bold;
+  font-weight: 700;
+  text-decoration: underline;
 }
 
+.toolbar-actions {
+  display: flex;
+  gap: 0.75rem;
+}

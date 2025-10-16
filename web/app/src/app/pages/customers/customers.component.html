@@ -1,26 +1,87 @@
-﻿<section class="page">
+<section class="page">
   <h2>Clientes</h2>
-  <ng-container *ngIf="customers$ | async as customers; else loading">
-    <ng-container *ngIf="customers.length; else empty">
+
+  <mat-card *ngIf="auth.loggedIn(); else avisoLogin" class="form-card">
+    <form [formGroup]="form" (ngSubmit)="salvar()">
+      <h3>{{ editandoId() ? "Editar cliente" : "Novo cliente" }}</h3>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="nome" placeholder="Nome completo" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Telefone</mat-label>
+        <input matInput formControlName="telefone" placeholder="(11) 99999-9999" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>E-mail</mat-label>
+        <input matInput formControlName="email" placeholder="cliente@empresa.com" />
+      </mat-form-field>
+
+      <div class="form-actions">
+        <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">
+          Salvar
+        </button>
+        <button
+          mat-stroked-button
+          color="accent"
+          type="button"
+          *ngIf="editandoId()"
+          (click)="cancelarEdicao()"
+        >
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </mat-card>
+
+  <ng-template #avisoLogin>
+    <p class="muted">Entre na aplicação para cadastrar ou editar clientes.</p>
+  </ng-template>
+
+  <ng-container *ngIf="clientes(); else carregando">
+    <ng-container *ngIf="clientes().length; else vazio">
       <div class="card-grid">
-        <mat-card *ngFor="let customer of customers">
-          <mat-card-title>{{ customer.name }}</mat-card-title>
+        <mat-card *ngFor="let cliente of clientes()">
+          <mat-card-title>{{ cliente.name }}</mat-card-title>
           <mat-card-content>
-            <p>Telefone: {{ customer.phone || '-' }}</p>
-            <p>E-mail: {{ customer.email || '-' }}</p>
+            <p><strong>Telefone:</strong> {{ cliente.phone || "—" }}</p>
+            <p><strong>E-mail:</strong> {{ cliente.email || "—" }}</p>
           </mat-card-content>
+          <mat-card-actions *ngIf="auth.loggedIn()" class="action-buttons">
+            <button
+              mat-icon-button
+              class="acao-icon editar"
+              type="button"
+              aria-label="Editar cliente"
+              (click)="editar(cliente)"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              class="acao-icon excluir"
+              type="button"
+              aria-label="Excluir cliente"
+              (click)="excluir(cliente)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-card-actions>
         </mat-card>
       </div>
     </ng-container>
   </ng-container>
 
-  <ng-template #loading>
+  <ng-template #carregando>
     <div class="center">
       <mat-spinner diameter="40"></mat-spinner>
     </div>
   </ng-template>
 
-  <ng-template #empty>
-    <p class="muted">Nenhum cliente cadastrado.</p>
+  <ng-template #vazio>
+    <p class="empty-state">Nenhum cliente cadastrado.</p>
   </ng-template>
 </section>

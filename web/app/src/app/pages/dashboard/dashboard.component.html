@@ -1,6 +1,6 @@
-﻿<section class="dashboard">
-  <h1>HortiFruti Malunga</h1>
-  <p>Resumo rápido da operação. Use o menu para acessar cada cadastro.</p>
+<section class="dashboard page">
+  <h1>Painel geral</h1>
+  <p class="descricao">Resumo rápido da operação. Utilize o menu superior para acessar cada módulo.</p>
 
   <div class="cards">
     <mat-card>
@@ -9,30 +9,34 @@
         <span class="value">{{ (categories$ | async)?.length ?? 0 }}</span>
       </mat-card-content>
     </mat-card>
+
     <mat-card>
       <mat-card-title>Produtos</mat-card-title>
       <mat-card-content>
         <span class="value">{{ (products$ | async)?.length ?? 0 }}</span>
       </mat-card-content>
     </mat-card>
+
     <mat-card>
       <mat-card-title>Clientes</mat-card-title>
       <mat-card-content>
         <span class="value">{{ (customers$ | async)?.length ?? 0 }}</span>
       </mat-card-content>
     </mat-card>
+
     <mat-card>
       <mat-card-title>Vendas registradas</mat-card-title>
       <mat-card-content>
         <span class="value">{{ (sales$ | async)?.length ?? 0 }}</span>
       </mat-card-content>
     </mat-card>
+
     <mat-card>
       <mat-card-title>Alertas de validade</mat-card-title>
       <mat-card-content>
         <ng-container *ngIf="(alerts$ | async) as alerts">
           <span class="value">{{ alerts.length }}</span>
-          <p class="muted" *ngIf="alerts.length">Veja detalhes na página de alertas.</p>
+          <p class="muted" *ngIf="alerts.length">Veja os detalhes na página de alertas.</p>
           <p class="muted" *ngIf="!alerts.length">Sem alertas pendentes.</p>
         </ng-container>
       </mat-card-content>

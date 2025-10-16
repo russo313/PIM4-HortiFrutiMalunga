@@ -27,8 +27,13 @@ public class AuthController(HortifrutiContext context, TokenService tokenService
     }
 }
 
-public record LoginRequest(
-    [property: Required, EmailAddress] string Email,
-    [property: Required] string Password);
+public class LoginRequest
+{
+    [Required, EmailAddress]
+    public string Email { get; set; } = string.Empty;
+
+    [Required]
+    public string Password { get; set; } = string.Empty;
+}
 
 public record LoginResponse(string Name, string Role, string Token);
