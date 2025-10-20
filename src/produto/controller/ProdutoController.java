@@ -8,9 +8,7 @@ public class ProdutoController {
 
     // Demonstração simples para rodar no Main
     public void demo() {
-        var p1 = new Produto(1, "Banana", 8.90, UnidadeMedida.KILO, Categoria.FRUTA);
-        var p2 = new Produto(2, "Tomate", 12.50, UnidadeMedida.KILO, Categoria.VERDURA);
-
+        
         service.criar(p1);
         service.criar(p2);
 
