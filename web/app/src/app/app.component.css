@@ -31,3 +31,14 @@ mat-toolbar a.active {
   display: flex;
   gap: 0.75rem;
 }
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.brand mat-icon {
+  font-size: 24px;
+}
+

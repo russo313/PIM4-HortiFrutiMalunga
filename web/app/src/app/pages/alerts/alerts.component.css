@@ -1,10 +1,7 @@
-﻿.refresh {
-  margin-bottom: 1rem;
+.page mat-card {
+  padding: 1.5rem;
 }
 
-.center {
-  display: flex;
-  justify-content: center;
-  padding: 1rem;
+mat-chip {
+  font-weight: 600;
 }
-

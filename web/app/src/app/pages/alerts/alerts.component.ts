@@ -1,50 +1,17 @@
-﻿import { Component, inject, signal } from "@angular/core";
+import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { MatCardModule } from "@angular/material/card";
-import { MatButtonModule } from "@angular/material/button";
 import { MatChipsModule } from "@angular/material/chips";
-import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
-import { ApiService, ValidityAlert } from "../../services/api.service";
-import { AuthService } from "../../services/auth.service";
+import { MatIconModule } from "@angular/material/icon";
+import { validityAlertsData } from "../../services/api.service";
 
 @Component({
   selector: "app-alerts",
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule, MatChipsModule, MatProgressSpinnerModule],
+  imports: [CommonModule, MatCardModule, MatChipsModule, MatIconModule],
   templateUrl: "./alerts.component.html",
   styleUrls: ["./alerts.component.css"]
 })
 export class AlertsComponent {
-  private api = inject(ApiService);
-  protected auth = inject(AuthService);
-
-  alerts = signal<ValidityAlert[] | null>(null);
-  loading = signal(true);
-
-  constructor() {
-    this.load();
-  }
-
-  load(): void {
-    this.loading.set(true);
-    this.api.getAlerts().subscribe({
-      next: (alerts) => {
-        this.alerts.set(alerts);
-        this.loading.set(false);
-      },
-      error: () => {
-        this.alerts.set([]);
-        this.loading.set(false);
-      }
-    });
-  }
-
-  markAsRead(id: string): void {
-    if (!this.auth.loggedIn()) {
-      return;
-    }
-    this.api.markAlertRead(id).subscribe({
-      next: () => this.load()
-    });
-  }
+  alerts = validityAlertsData;
 }

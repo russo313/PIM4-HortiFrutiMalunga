@@ -1,35 +1,19 @@
-<mat-toolbar class="main-toolbar">
-  <span class="brand">HortiFruti Malunga</span>
+﻿<mat-toolbar class="main-toolbar">
+  <span class="brand">
+    <mat-icon>spa</mat-icon>
+    HortiFruti Malunga
+  </span>
   <span class="spacer"></span>
 
-  <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-    Início
+  <a
+    *ngFor="let link of links"
+    mat-button
+    [routerLink]="link.path"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: link.path === '' }"
+  >
+    {{ link.label }}
   </a>
-  <a mat-button routerLink="/categories" routerLinkActive="active">Categorias</a>
-  <a mat-button routerLink="/products" routerLinkActive="active">Produtos</a>
-  <a mat-button routerLink="/customers" routerLinkActive="active">Clientes</a>
-  <a mat-button routerLink="/movements" routerLinkActive="active">Movimentação</a>
-  <a mat-button routerLink="/sales" routerLinkActive="active">Vendas</a>
-  <a mat-button routerLink="/alerts" routerLinkActive="active">Alertas</a>
-
-  <div class="toolbar-actions">
-    <button
-      mat-stroked-button
-      color="accent"
-      routerLink="/login"
-      *ngIf="!loggedIn()"
-    >
-      Entrar
-    </button>
-    <button
-      mat-stroked-button
-      color="accent"
-      *ngIf="loggedIn()"
-      (click)="sair()"
-    >
-      Sair {{ userName() ? '(' + userName() + ')' : '' }}
-    </button>
-  </div>
 </mat-toolbar>
 
 <main>

@@ -1,145 +1,51 @@
-<section class="page">
-  <h2>Vendas</h2>
+﻿<section class="page">
+  <h2>HistÃ³rico de vendas</h2>
+  <p class="muted">SimulaÃ§Ã£o de pedidos realizados, com clientes, totais e itens vendidos.</p>
 
-  <mat-card *ngIf="auth.loggedIn(); else avisoLogin" class="form-card">
-    <h3>Registrar nova venda</h3>
-
-    <form [formGroup]="cabecalhoForm">
-      <mat-form-field appearance="outline">
-        <mat-label>Cliente</mat-label>
-        <mat-select formControlName="clienteId">
-          <mat-option [value]="null">Cliente avulso</mat-option>
-          <mat-option *ngFor="let cliente of clientes()" [value]="cliente.id">
-            {{ cliente.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </form>
-
-    <form class="item-form" [formGroup]="itemForm" (ngSubmit)="adicionarItem()">
-      <mat-form-field appearance="outline">
-        <mat-label>Produto</mat-label>
-        <mat-select formControlName="produtoId" required>
-          <mat-option *ngFor="let produto of produtos()" [value]="produto.id">
-            {{ produto.name }} ({{ produto.unitOfMeasure }})
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>Quantidade</mat-label>
-        <input matInput type="number" min="0.001" step="0.001" formControlName="quantidade" required />
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>Preço unitário</mat-label>
-        <input matInput type="number" min="0" step="0.01" formControlName="precoUnitario" required />
-      </mat-form-field>
-
-      <button mat-flat-button color="primary" type="submit" [disabled]="itemForm.invalid">
-        Adicionar item
-      </button>
-    </form>
-
-    <div class="itens" *ngIf="itens().length">
-      <table mat-table [dataSource]="itens()" class="mat-elevation-z1 itens-table">
-        <ng-container matColumnDef="produto">
-          <th mat-header-cell *matHeaderCellDef>Produto</th>
-          <td mat-cell *matCellDef="let item">
-            {{ nomeProduto(item.productId) }}
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="quantidade">
-          <th mat-header-cell *matHeaderCellDef>Qtd</th>
-          <td mat-cell *matCellDef="let item">{{ item.quantity }}</td>
-        </ng-container>
-        <ng-container matColumnDef="preco">
-          <th mat-header-cell *matHeaderCellDef>Preço unitário</th>
-          <td mat-cell *matCellDef="let item">{{ item.unitPrice | currency: "BRL":"symbol":"1.2-2" }}</td>
-        </ng-container>
-        <ng-container matColumnDef="subtotal">
-          <th mat-header-cell *matHeaderCellDef>Subtotal</th>
-          <td mat-cell *matCellDef="let item">{{ (item.unitPrice * item.quantity) | currency: "BRL":"symbol":"1.2-2" }}</td>
-        </ng-container>
-        <ng-container matColumnDef="acoes">
-          <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell *matCellDef="let item; let i = index" class="action-buttons">
-            <button
-              mat-icon-button
-              class="acao-icon excluir"
-              type="button"
-              aria-label="Remover item"
-              (click)="removerItem(i)"
-            >
-              <mat-icon>delete</mat-icon>
-            </button>
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="['produto', 'quantidade', 'preco', 'subtotal', 'acoes']"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['produto', 'quantidade', 'preco', 'subtotal', 'acoes'];"></tr>
-      </table>
-
-      <div class="total total-destaque">
-        Total parcial: {{ resumoTotal() | currency: "BRL":"symbol":"1.2-2" }}
-      </div>
-
-      <button mat-flat-button color="accent" type="button" (click)="registrarVenda()">
-        Finalizar venda
-      </button>
+  <div class="resumo-vendas">
+    <mat-icon>point_of_sale</mat-icon>
+    <div>
+      <p>Total faturado no perÃ­odo fictÃ­cio:</p>
+      <strong>{{ totalGeral | currency: "BRL":"symbol":"1.2-2" }}</strong>
     </div>
-  </mat-card>
+  </div>
 
-  <ng-template #avisoLogin>
-    <p class="muted">Entre na aplicação para registrar vendas.</p>
-  </ng-template>
+  <div class="sales-grid">
+    <mat-card *ngFor="let venda of vendas">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon color="primary">receipt_long</mat-icon>
+          Pedido {{ venda.id }}
+        </mat-card-title>
+        <mat-card-subtitle>
+          {{ venda.date | date: "short" }} â€¢ {{ venda.paymentMethod }}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p><strong>Cliente:</strong> {{ venda.customerName || "Cliente balcÃ£o" }}</p>
+        <p><strong>Total da venda:</strong> {{ venda.totalAmount | currency: "BRL":"symbol":"1.2-2" }}</p>
+        <table mat-table [dataSource]="venda.items" class="mat-elevation-z1 mat-table">
+          <ng-container matColumnDef="produto">
+            <th mat-header-cell *matHeaderCellDef>Produto</th>
+            <td mat-cell *matCellDef="let item">{{ item.productName }}</td>
+          </ng-container>
+          <ng-container matColumnDef="quantidade">
+            <th mat-header-cell *matHeaderCellDef>Qtd</th>
+            <td mat-cell *matCellDef="let item">{{ item.quantity }}</td>
+          </ng-container>
+          <ng-container matColumnDef="preco">
+            <th mat-header-cell *matHeaderCellDef>PreÃ§o</th>
+            <td mat-cell *matCellDef="let item">{{ item.unitPrice | currency: "BRL":"symbol":"1.2-2" }}</td>
+          </ng-container>
+          <ng-container matColumnDef="subtotal">
+            <th mat-header-cell *matHeaderCellDef>Subtotal</th>
+            <td mat-cell *matCellDef="let item">{{ item.subtotal | currency: "BRL":"symbol":"1.2-2" }}</td>
+          </ng-container>
 
-  <section class="listagem">
-    <h3>Histórico de vendas</h3>
-    <ng-container *ngIf="vendas(); else carregando">
-      <ng-container *ngIf="vendas().length; else vazio">
-        <div class="sale-list">
-          <mat-card class="sale" *ngFor="let venda of vendas()">
-            <mat-card-header>
-              <mat-card-title>Venda em {{ venda.date | date: "short" }}</mat-card-title>
-              <mat-card-subtitle>ID: {{ venda.id }}</mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content>
-              <p class="total total-destaque">
-                Total: {{ venda.totalAmount | currency: "BRL":"symbol":"1.2-2" }}
-              </p>
-              <table class="data-table">
-                <thead>
-                  <tr>
-                    <th>Produto</th>
-                    <th>Qtd</th>
-                    <th>Preço unitário</th>
-                    <th>Subtotal</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let item of venda.items">
-                    <td>{{ item.productName }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td>{{ item.unitPrice | currency: "BRL":"symbol":"1.2-2" }}</td>
-                    <td>{{ item.subtotal | currency: "BRL":"symbol":"1.2-2" }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </mat-card-content>
-          </mat-card>
-        </div>
-      </ng-container>
-    </ng-container>
-  </section>
-
-  <ng-template #carregando>
-    <div class="center">
-      <mat-spinner diameter="40"></mat-spinner>
-    </div>
-  </ng-template>
-
-  <ng-template #vazio>
-    <p class="empty-state">Nenhuma venda registrada.</p>
-  </ng-template>
+          <tr mat-header-row *matHeaderRowDef="colunasItens"></tr>
+          <tr mat-row *matRowDef="let row; columns: colunasItens"></tr>
+        </table>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </section>

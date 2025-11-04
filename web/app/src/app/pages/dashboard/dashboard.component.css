@@ -21,3 +21,10 @@
   font-weight: 700;
   color: var(--cor-primaria-escura);
 }
+
+.descricao-card {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--cor-texto-suave);
+}
+

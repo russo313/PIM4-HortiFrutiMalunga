@@ -1,8 +1,7 @@
-import { Component, inject } from "@angular/core";
+﻿import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { MatCardModule } from "@angular/material/card";
-import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
-import { ApiService, StockMovement } from "../../services/api.service";
+import { stockMovementsData } from "../../services/api.service";
 
 const TIPO_LABEL: Record<string, string> = {
   Entry: "Entrada",
@@ -29,19 +28,18 @@ const MOTIVO_LABEL: Record<string, string> = {
 @Component({
   selector: "app-movements",
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatProgressSpinnerModule],
+  imports: [CommonModule, MatCardModule],
   templateUrl: "./movements.component.html",
   styleUrls: ["./movements.component.css"]
 })
 export class MovementsComponent {
-  protected api = inject(ApiService);
-  protected movements$ = this.api.getMovements();
+  movements = stockMovementsData;
 
-  tipoDescricao(tipo: StockMovement["type"]): string {
+  tipoDescricao(tipo: string): string {
     return TIPO_LABEL[String(tipo)] ?? String(tipo);
   }
 
-  motivoDescricao(motivo: StockMovement["reason"]): string {
+  motivoDescricao(motivo: string): string {
     return MOTIVO_LABEL[String(motivo)] ?? String(motivo);
   }
 
@@ -49,7 +47,7 @@ export class MovementsComponent {
     if (!note) {
       return "—";
     }
-    if (note.trim().toLowerCase() === "seed initial stock") {
+    if (note.trim().toLowerCase() === "estoque inicial") {
       return "Estoque inicial";
     }
     return note;

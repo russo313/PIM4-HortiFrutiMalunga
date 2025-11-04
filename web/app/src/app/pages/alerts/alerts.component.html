@@ -1,58 +1,29 @@
-﻿<section class="page">
-  <h2>Alertas de validade</h2>
+<section class="page">
+  <h2>Alertas de validade simulados</h2>
+  <p class="muted">Monitoramento ilustrativo dos produtos que exigem atenção por estarem próximos do vencimento.</p>
 
-  <button mat-raised-button color="primary" class="refresh" type="button" (click)="load()">
-    Atualizar
-  </button>
-
-  <div *ngIf="loading(); else content">
-    <div class="center">
-      <mat-spinner diameter="40"></mat-spinner>
-    </div>
-  </div>
-
-  <ng-template #content>
-    <ng-container *ngIf="alerts() as list">
-      <mat-card *ngIf="list.length; else vazio">
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>Produto</th>
-              <th>Validade</th>
-              <th>Dias restantes</th>
-              <th>Status</th>
-              <th *ngIf="auth.loggedIn()"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let alert of list">
-              <td>{{ alert.productName }}</td>
-              <td>{{ alert.validUntil }}</td>
-              <td>{{ alert.daysRemaining }}</td>
-              <td>
-                <mat-chip [color]="alert.status === 'Read' ? 'accent' : 'warn'" selected>
-                  {{ alert.status === 'Read' ? 'Lido' : 'Novo' }}
-                </mat-chip>
-              </td>
-              <td *ngIf="auth.loggedIn()">
-                <button
-                  mat-stroked-button
-                  color="primary"
-                  type="button"
-                  (click)="markAsRead(alert.id)"
-                  [disabled]="alert.status === 'Read'"
-                >
-                  Marcar como lido
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </mat-card>
-    </ng-container>
-  </ng-template>
-
-  <ng-template #vazio>
-    <p class="muted">Nenhum alerta de validade registrado.</p>
-  </ng-template>
+  <mat-card>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Produto</th>
+          <th>Validade</th>
+          <th>Dias restantes</th>
+          <th>Status</th>
+          <th>Gerado em</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let alert of alerts">
+          <td>{{ alert.productName }}</td>
+          <td>{{ alert.validUntil | date: "dd/MM/yyyy" }}</td>
+          <td>{{ alert.daysRemaining }}</td>
+          <td>
+            <mat-chip [color]="alert.status === 'Lido' ? 'primary' : 'warn'" selected>{{ alert.status }}</mat-chip>
+          </td>
+          <td>{{ alert.generatedAt | date: "dd/MM/yyyy HH:mm" }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-card>
 </section>

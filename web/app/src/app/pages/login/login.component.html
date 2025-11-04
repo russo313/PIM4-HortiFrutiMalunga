@@ -1,22 +1,26 @@
-<div class="login-container">
+﻿<section class="page">
+  <h2>Sobre esta demonstração</h2>
   <mat-card>
-    <mat-card-title>Entrar</mat-card-title>
+    <mat-card-title>
+      <mat-icon color="primary">info</mat-icon>
+      Projeto estático para apresentação
+    </mat-card-title>
     <mat-card-content>
-      <form [formGroup]="form" (ngSubmit)="entrar()">
-        <mat-form-field appearance="outline">
-          <mat-label>E-mail</mat-label>
-          <input matInput formControlName="email" type="email" placeholder="email@hortifruti.com" />
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>Senha</mat-label>
-          <input matInput formControlName="senha" type="password" placeholder="Sua senha" />
-        </mat-form-field>
-
-        <button mat-flat-button color="primary" type="submit" [disabled]="carregando">
-          {{ carregando ? "Entrando..." : "Entrar" }}
-        </button>
-      </form>
+      <p>
+        Este ambiente foi preparado apenas para exibição visual no Vercel. Todas as telas exibem dados fictícios
+        simulando o funcionamento do hortifruti Malunga.
+      </p>
+      <p>
+        O fluxo de autenticação original foi desativado, portanto nenhuma credencial é necessária. Utilize o menu para
+        navegar entre as páginas e visualizar as simulações de categorias, produtos, clientes, vendas e alertas.
+      </p>
+      <p>
+        Caso deseje reaproveitar este layout com uma API real, basta reconectar as chamadas HTTP no código fonte.
+      </p>
+      <button mat-stroked-button color="primary" routerLink="/">
+        <mat-icon>arrow_back</mat-icon>
+        Voltar para o painel
+      </button>
     </mat-card-content>
   </mat-card>
-</div>
+</section>

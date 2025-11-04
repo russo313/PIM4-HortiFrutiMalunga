@@ -1,44 +1,20 @@
-<section class="dashboard page">
+<section class="page dashboard">
   <h1>Painel geral</h1>
-  <p class="descricao">Resumo rápido da operação. Utilize o menu superior para acessar cada módulo.</p>
+  <p class="descricao">
+    Este painel demonstra como os indicadores do hortifruti seriam apresentados. Os números abaixo utilizam dados fictícios.
+  </p>
 
   <div class="cards">
-    <mat-card>
-      <mat-card-title>Categorias</mat-card-title>
+    <mat-card *ngFor="let card of cards">
+      <mat-card-title>{{ card.title }}</mat-card-title>
       <mat-card-content>
-        <span class="value">{{ (categories$ | async)?.length ?? 0 }}</span>
-      </mat-card-content>
-    </mat-card>
-
-    <mat-card>
-      <mat-card-title>Produtos</mat-card-title>
-      <mat-card-content>
-        <span class="value">{{ (products$ | async)?.length ?? 0 }}</span>
-      </mat-card-content>
-    </mat-card>
-
-    <mat-card>
-      <mat-card-title>Clientes</mat-card-title>
-      <mat-card-content>
-        <span class="value">{{ (customers$ | async)?.length ?? 0 }}</span>
-      </mat-card-content>
-    </mat-card>
-
-    <mat-card>
-      <mat-card-title>Vendas registradas</mat-card-title>
-      <mat-card-content>
-        <span class="value">{{ (sales$ | async)?.length ?? 0 }}</span>
-      </mat-card-content>
-    </mat-card>
-
-    <mat-card>
-      <mat-card-title>Alertas de validade</mat-card-title>
-      <mat-card-content>
-        <ng-container *ngIf="(alerts$ | async) as alerts">
-          <span class="value">{{ alerts.length }}</span>
-          <p class="muted" *ngIf="alerts.length">Veja os detalhes na página de alertas.</p>
-          <p class="muted" *ngIf="!alerts.length">Sem alertas pendentes.</p>
-        </ng-container>
+        <span class="value">
+          <ng-container *ngIf="card.title === 'Faturamento estimado'; else quantidade">
+            {{ card.value | currency: "BRL":"symbol":"1.2-2" }}
+          </ng-container>
+          <ng-template #quantidade>{{ card.value }}</ng-template>
+        </span>
+        <p class="descricao-card">{{ card.description }}</p>
       </mat-card-content>
     </mat-card>
   </div>
