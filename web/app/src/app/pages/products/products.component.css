@@ -7,8 +7,61 @@
 mat-card {
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
-  min-height: 260px;
+    gap: 0.75rem;
+  min-height: 320px;
+  padding-bottom: 1.25rem;
+}
+
+mat-card::before {
+  content: "";
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 0.85rem;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+.products-grid mat-card:nth-child(1)::before {
+  background-image: url("https://images.unsplash.com/photo-1613478611428-1c814c3f0b00?auto=format&fit=crop&w=900&q=80");
+}
+
+.products-grid mat-card:nth-child(2)::before {
+  background-image: url("https://images.unsplash.com/photo-1511690656952-34342bb7c2f2?auto=format&fit=crop&w=900&q=80");
+}
+
+.products-grid mat-card:nth-child(3)::before {
+  background-image: url("https://images.unsplash.com/photo-1582281298051-0889d3f87b8e?auto=format&fit=crop&w=900&q=80");
+}
+
+.products-grid mat-card:nth-child(4)::before {
+  background-image: url("https://images.unsplash.com/photo-1601000938259-9d438af5ce4e?auto=format&fit=crop&w=900&q=80");
+}
+
+.products-grid mat-card:nth-child(5)::before {
+  background-image: url("https://images.unsplash.com/photo-1592924357228-91a4c93c7219?auto=format&fit=crop&w=900&q=80");
+}
+
+.products-grid mat-card:nth-child(6)::before {
+  background-image: url("https://images.unsplash.com/photo-1582515073490-d7f72e79e07c?auto=format&fit=crop&w=900&q=80");
+}
+
+.products-grid mat-card:nth-child(7)::before {
+  background-image: url("https://images.unsplash.com/photo-1603785226415-27f6b8d1c890?auto=format&fit=crop&w=900&q=80");
+}
+
+.products-grid mat-card:nth-child(8)::before {
+  background-image: url("https://images.unsplash.com/photo-1604908177522-4023ac76c476?auto=format&fit=crop&w=900&q=80");
+}
+
+.products-grid mat-card:nth-child(9)::before {
+  background-image: url("https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=900&q=80");
+}
+
+.products-grid mat-card:nth-child(10)::before {
+  background-image: url("https://images.unsplash.com/photo-1514996937319-344454492b37?auto=format&fit=crop&w=900&q=80");
 }
 
 mat-card-title {
