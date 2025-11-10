@@ -1,11 +1,11 @@
-<section class="page dashboard">
+﻿<section class="page dashboard">
   <h1>Painel geral</h1>
   <p class="descricao">
-    Este painel demonstra como os indicadores do hortifruti seriam apresentados. Os números abaixo utilizam dados fictícios.
+    Este painel demonstra como os indicadores do hortifruti seriam apresentados. Os nÃºmeros abaixo utilizam dados fictÃ­cios.
   </p>
 
   <div class="cards">
-    <mat-card *ngFor="let card of cards">
+    <mat-card *ngFor="let card of (cards$ | async) ?? []">
       <mat-card-title>{{ card.title }}</mat-card-title>
       <mat-card-content>
         <span class="value">

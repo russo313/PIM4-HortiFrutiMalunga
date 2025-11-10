@@ -1,4 +1,4 @@
-using Hortifruti.Api.Contracts;
+﻿using Hortifruti.Api.Contracts;
 using Hortifruti.Api.Data;
 using Hortifruti.Api.Models;
 using Microsoft.EntityFrameworkCore;

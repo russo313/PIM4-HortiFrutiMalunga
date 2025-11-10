@@ -1,4 +1,4 @@
-using Hortifruti.Api.Contracts;
+﻿using Hortifruti.Api.Contracts;
 using Hortifruti.Api.Models;
 using Hortifruti.Api.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -64,8 +64,10 @@ public class SalesController(SalesService service) : ControllerBase
         return new SaleResponse(
             sale.Id,
             sale.CustomerId,
+            sale.Customer?.Name,
             sale.Date,
             sale.TotalAmount,
+            sale.PaymentMethod,
             sale.Items.Select(i => new SaleResponseItem(
                 i.ProductId,
                 i.Product?.Name ?? string.Empty,

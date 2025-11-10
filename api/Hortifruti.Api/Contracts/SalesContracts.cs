@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Hortifruti.Api.Contracts;
 
@@ -10,14 +10,17 @@ public record SaleItemRequest(
 
 public record SaleRequest(
     Guid? CustomerId,
-    List<SaleItemRequest> Items
+    List<SaleItemRequest> Items,
+    [property: StringLength(80)] string? PaymentMethod
 );
 
 public record SaleResponse(
     Guid Id,
     Guid? CustomerId,
+    string? CustomerName,
     DateTime Date,
     decimal TotalAmount,
+    string PaymentMethod,
     IEnumerable<SaleResponseItem> Items
 );
 

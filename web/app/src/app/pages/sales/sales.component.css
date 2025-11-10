@@ -1,40 +1,47 @@
-.sales-grid {
-  display: grid;
-  gap: 1.5rem;
-}
-
-.sales-grid mat-card {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.resumo-vendas {
+﻿.resumo-vendas {
   display: flex;
   align-items: center;
   gap: 1rem;
-  background: rgba(46, 125, 50, 0.12);
-  border-radius: 14px;
-  padding: 1rem 1.5rem;
-  color: var(--cor-primaria-escura);
+  margin-bottom: 1.5rem;
 }
 
-.resumo-vendas mat-icon {
-  font-size: 36px;
-  height: 36px;
-  width: 36px;
+.form-card {
+  margin-bottom: 2rem;
+  padding: 2rem;
 }
 
-.resumo-vendas strong {
-  font-size: 1.5rem;
+.venda-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.mat-table {
-  border-radius: 12px;
-  overflow: hidden;
+.linha {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
 }
 
-.mat-header-cell,
-.mat-cell {
-  padding: 0.75rem 1rem;
+.itens {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) auto;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.sales-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.form-acoes {
+  display: flex;
+  justify-content: flex-start;
 }

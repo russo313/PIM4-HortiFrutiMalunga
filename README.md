@@ -10,9 +10,9 @@ Projeto acadêmico (PIM IV) em C# / ASP.NET Core. A API expõe os recursos do ho
 
 ## Pré-requisitos
 - Windows 10/11 64 bits com Docker Desktop + WSL2
-- .NET SDK 9.0
+- .NET SDK 8.0
 - Git
-- (Opcional) Azure Data Studio ou DBeaver para acessar o SQL Server
+- (Opcional) DBeaver ou pgAdmin para acessar o PostgreSQL
 
 ## Executar localmente
 ```bash

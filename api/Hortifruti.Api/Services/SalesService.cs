@@ -45,11 +45,16 @@ public class SalesService(HortifrutiContext context, StockService stockService)
 
         await using var transaction = await context.Database.BeginTransactionAsync(ct);
 
+        var paymentMethod = string.IsNullOrWhiteSpace(request.PaymentMethod)
+            ? "Dinheiro"
+            : request.PaymentMethod!.Trim();
+
         var sale = new Sale
         {
             CustomerId = request.CustomerId,
             UserId = userId,
-            Date = DateTime.UtcNow
+            Date = DateTime.UtcNow,
+            PaymentMethod = paymentMethod
         };
 
         context.Sales.Add(sale);
@@ -96,6 +101,7 @@ public class SalesService(HortifrutiContext context, StockService stockService)
     public async Task<List<Sale>> GetAllAsync(CancellationToken ct = default)
     {
         return await context.Sales
+            .Include(s => s.Customer)
             .Include(s => s.Items)
             .ThenInclude(i => i.Product)
             .AsNoTracking()
@@ -106,6 +112,7 @@ public class SalesService(HortifrutiContext context, StockService stockService)
     public async Task<Sale?> GetByIdAsync(Guid id, CancellationToken ct = default)
     {
         return await context.Sales
+            .Include(s => s.Customer)
             .Include(s => s.Items)
             .ThenInclude(i => i.Product)
             .AsNoTracking()

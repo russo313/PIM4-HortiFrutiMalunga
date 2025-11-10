@@ -1,7 +1,8 @@
-import { Component } from "@angular/core";
+﻿import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { MatCardModule } from "@angular/material/card";
-import { categoriesData, customersData, productsData, salesData, validityAlertsData } from "../../services/api.service";
+import { combineLatest, map } from "rxjs";
+import { ApiService } from "../../services/api.service";
 
 @Component({
   selector: "app-dashboard",
@@ -11,16 +12,25 @@ import { categoriesData, customersData, productsData, salesData, validityAlertsD
   styleUrls: ["./dashboard.component.css"]
 })
 export class DashboardComponent {
-  cards = [
-    { title: "Categorias", value: categoriesData.length, description: "Segmentos cadastrados" },
-    { title: "Produtos ativos", value: productsData.length, description: "Itens disponíveis no catálogo" },
-    { title: "Clientes", value: customersData.length, description: "Contatos ilustrativos" },
-    { title: "Alertas de validade", value: validityAlertsData.length, description: "Produtos que exigem atenção" },
-    { title: "Pedidos registrados", value: salesData.length, description: "Vendas simuladas no período" },
-    {
-      title: "Faturamento estimado",
-      value: salesData.reduce((total, venda) => total + venda.totalAmount, 0),
-      description: "Somatório das vendas (R$)"
-    }
-  ];
+  private readonly api = inject(ApiService);
+
+  cards$ = combineLatest({
+    categories: this.api.getCategories(),
+    products: this.api.getProducts(),
+    customers: this.api.getCustomers(),
+    alerts: this.api.getValidityAlerts(),
+    sales: this.api.getSales()
+  }).pipe(
+    map(({ categories, products, customers, alerts, sales }) => {
+      const faturamento = sales.reduce((total, venda) => total + venda.totalAmount, 0);
+      return [
+        { title: "Categorias", value: categories.length, description: "Segmentos cadastrados" },
+        { title: "Produtos ativos", value: products.length, description: "Itens disponiveis no catalogo" },
+        { title: "Clientes", value: customers.length, description: "Contatos ilustrativos" },
+        { title: "Alertas de validade", value: alerts.length, description: "Produtos que exigem atencao" },
+        { title: "Pedidos registrados", value: sales.length, description: "Vendas simuladas no periodo" },
+        { title: "Faturamento estimado", value: faturamento, description: "Somatorio das vendas (R$)" }
+      ];
+    })
+  );
 }

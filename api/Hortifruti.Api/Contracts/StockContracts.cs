@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using Hortifruti.Api.Models;
 
 namespace Hortifruti.Api.Contracts;

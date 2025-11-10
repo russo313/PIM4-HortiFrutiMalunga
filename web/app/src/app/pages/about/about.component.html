@@ -1,0 +1,35 @@
+﻿<section class="page about">
+  <h2>Sobre a implementaÃ§Ã£o</h2>
+
+  <mat-card>
+    <mat-card-title>
+      <mat-icon color="primary">storage</mat-icon>
+      Back-end em .NET + PostgreSQL
+    </mat-card-title>
+    <mat-card-content>
+      <p>
+        A API estÃ¡ rodando em containers Docker (imagem .NET 8 com Entity Framework Core e banco PostgreSQL 16).
+        Todas as pÃ¡ginas do painel consomem os endpoints reais (<code>/api/categories</code>, <code>/api/products</code>, etc.),
+        e os dados exibidos foram semeados diretamente no banco para demonstrar as funcionalidades.
+      </p>
+      <p>
+        Para testar operaÃ§Ãµes protegidas (cadastro de produtos, vendas, movimentaÃ§Ãµes manuais) basta autenticar na tela de
+        <strong>Login</strong>. O token JWT Ã© enviado em todas as requisiÃ§Ãµes subsequentes.
+      </p>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-title>
+      <mat-icon color="primary">dashboard</mat-icon>
+      Painel e navegaÃ§Ã£o
+    </mat-card-title>
+    <mat-card-content>
+      <ul>
+        <li>O dashboard inicial apresenta indicadores calculados em tempo real a partir da API.</li>
+        <li>Categorias, produtos, clientes, vendas, movimentos e alertas mostram exatamente o que estÃ¡ no banco.</li>
+        <li>O proxy (<code>proxy.conf.json</code>) encaminha as chamadas do Angular para <code>http://localhost:8080/api</code>.</li>
+      </ul>
+    </mat-card-content>
+  </mat-card>
+</section>

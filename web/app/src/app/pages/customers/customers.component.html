@@ -1,6 +1,6 @@
-<section class="page">
+﻿<section class="page">
   <h2>Clientes e contatos</h2>
-  <p class="muted">Relação fictícia de clientes atendidos pelo hortifruti, com formas de contato e preferências.</p>
+  <p class="muted">Cadastre e mantenha o histórico dos principais clientes.</p>
 
   <div class="clientes-grid">
     <mat-card *ngFor="let cliente of clientes">
@@ -9,19 +9,56 @@
         {{ cliente.name }}
       </mat-card-title>
       <mat-card-content>
-        <p class="cliente-contato">
-          <strong>Telefone:</strong> {{ cliente.phone || "—" }}
-        </p>
-        <p class="cliente-contato">
-          <strong>E-mail:</strong> {{ cliente.email || "—" }}
-        </p>
-        <ng-container *ngIf="cliente.favoriteProducts?.length">
-          <p class="cliente-contato"><strong>Preferências:</strong></p>
-          <div class="chips-produtos">
-            <span *ngFor="let produto of cliente.favoriteProducts">{{ produto }}</span>
-          </div>
-        </ng-container>
+        <p class="cliente-contato"><strong>Telefone:</strong> {{ cliente.phone || "-" }}</p>
+        <p class="cliente-contato"><strong>E-mail:</strong> {{ cliente.email || "-" }}</p>
+        <div class="chips-produtos" *ngIf="cliente.favoriteProducts?.length">
+          <span *ngFor="let produto of cliente.favoriteProducts">{{ produto }}</span>
+        </div>
+        <div class="acoes">
+          <button mat-button color="primary" (click)="startEdit(cliente)">
+            <mat-icon>edit</mat-icon>
+            Editar
+          </button>
+          <button mat-button color="warn" (click)="delete(cliente)">
+            <mat-icon>delete</mat-icon>
+            Excluir
+          </button>
+        </div>
       </mat-card-content>
     </mat-card>
   </div>
+
+  <mat-card class="form-card">
+    <mat-card-title>{{ editing ? "Editar cliente" : "Novo cliente" }}</mat-card-title>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <mat-form-field appearance="outline">
+        <mat-label>Nome*</mat-label>
+        <input matInput formControlName="name" />
+        <mat-error *ngIf="form.get('name')?.hasError('required')">Informe o nome</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Telefone</mat-label>
+        <input matInput formControlName="phone" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>E-mail</mat-label>
+        <input matInput formControlName="email" />
+        <mat-error *ngIf="form.get('email')?.hasError('email')">Formato inválido</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Produtos favoritos (vírgula)</mat-label>
+        <textarea matInput rows="2" formControlName="favoriteProducts"></textarea>
+      </mat-form-field>
+
+      <div class="form-acoes">
+        <button mat-raised-button color="primary" type="submit" [disabled]="loading">
+          {{ editing ? "Salvar" : "Adicionar" }}
+        </button>
+        <button mat-button type="button" (click)="cancelEdit()" *ngIf="editing">Cancelar</button>
+      </div>
+    </form>
+  </mat-card>
 </section>

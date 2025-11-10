@@ -1,9 +1,9 @@
-import { Component } from "@angular/core";
+﻿import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { MatCardModule } from "@angular/material/card";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatIconModule } from "@angular/material/icon";
-import { validityAlertsData } from "../../services/api.service";
+import { ApiService } from "../../services/api.service";
 
 @Component({
   selector: "app-alerts",
@@ -13,5 +13,6 @@ import { validityAlertsData } from "../../services/api.service";
   styleUrls: ["./alerts.component.css"]
 })
 export class AlertsComponent {
-  alerts = validityAlertsData;
+  private readonly api = inject(ApiService);
+  alerts$ = this.api.getValidityAlerts();
 }

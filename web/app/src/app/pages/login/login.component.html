@@ -1,26 +1,56 @@
 ﻿<section class="page">
-  <h2>Sobre esta demonstração</h2>
+  <h2>Autenticação</h2>
+
   <mat-card>
     <mat-card-title>
-      <mat-icon color="primary">info</mat-icon>
-      Projeto estático para apresentação
+      <mat-icon color="primary">lock</mat-icon>
+      Acesse como administrador
     </mat-card-title>
     <mat-card-content>
       <p>
-        Este ambiente foi preparado apenas para exibição visual no Vercel. Todas as telas exibem dados fictícios
-        simulando o funcionamento do hortifruti Malunga.
+        Utilize as credenciais padrão para autenticar na API (.NET + PostgreSQL) e liberar as operações
+        administrativas. Após o login, o token JWT fica salvo localmente e é enviado automaticamente nas
+        requisições protegidas.
       </p>
-      <p>
-        O fluxo de autenticação original foi desativado, portanto nenhuma credencial é necessária. Utilize o menu para
-        navegar entre as páginas e visualizar as simulações de categorias, produtos, clientes, vendas e alertas.
-      </p>
-      <p>
-        Caso deseje reaproveitar este layout com uma API real, basta reconectar as chamadas HTTP no código fonte.
-      </p>
-      <button mat-stroked-button color="primary" routerLink="/">
-        <mat-icon>arrow_back</mat-icon>
-        Voltar para o painel
-      </button>
+      <form [formGroup]="form" (ngSubmit)="submit()" class="login-form">
+        <mat-form-field appearance="outline">
+          <mat-label>E-mail</mat-label>
+          <input matInput formControlName="email" type="email" />
+          <mat-error *ngIf="form.get('email')?.hasError('required')">Informe o e-mail</mat-error>
+          <mat-error *ngIf="form.get('email')?.hasError('email')">Formato inválido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Senha</mat-label>
+          <input matInput formControlName="password" type="password" />
+          <mat-error *ngIf="form.get('password')?.hasError('required')">Informe a senha</mat-error>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="loading">
+          <mat-icon>login</mat-icon>
+          Entrar
+          <mat-progress-spinner *ngIf="loading" diameter="18" mode="indeterminate"></mat-progress-spinner>
+        </button>
+        <button
+          mat-button
+          type="button"
+          color="warn"
+          (click)="logout()"
+          *ngIf="auth.isAuthenticated"
+        >
+          <mat-icon>logout</mat-icon>
+          Sair
+        </button>
+      </form>
+
+      <div class="feedback" *ngIf="feedback" [class.success]="feedback.type === 'success'" [class.error]="feedback.type === 'error'">
+        {{ feedback.message }}
+      </div>
+
+      <div class="credentials">
+        <p><strong>E-mail:</strong> admin&#64;hortifruti.local</p>
+        <p><strong>Senha:</strong> Admin&#64;123</p>
+      </div>
     </mat-card-content>
   </mat-card>
 </section>

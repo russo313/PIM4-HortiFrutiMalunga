@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Hortifruti.Api.Models;
 
@@ -14,6 +14,9 @@ public class Sale
 
     [Range(0, double.MaxValue)]
     public decimal TotalAmount { get; set; }
+
+    [StringLength(80)]
+    public string PaymentMethod { get; set; } = "Dinheiro";
 
     public Customer? Customer { get; set; }
     public User? User { get; set; }

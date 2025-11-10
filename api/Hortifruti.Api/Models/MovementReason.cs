@@ -1,4 +1,4 @@
-namespace Hortifruti.Api.Models;
+﻿namespace Hortifruti.Api.Models;
 
 public enum MovementReason
 {

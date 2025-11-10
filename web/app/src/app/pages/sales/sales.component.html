@@ -1,14 +1,71 @@
 ﻿<section class="page">
-  <h2>HistÃ³rico de vendas</h2>
-  <p class="muted">SimulaÃ§Ã£o de pedidos realizados, com clientes, totais e itens vendidos.</p>
+  <h2>Histórico de vendas</h2>
+  <p class="muted">Registre novas vendas e visualize o histórico.</p>
 
-  <div class="resumo-vendas">
+  <mat-card class="resumo-vendas">
     <mat-icon>point_of_sale</mat-icon>
     <div>
-      <p>Total faturado no perÃ­odo fictÃ­cio:</p>
+      <p>Total faturado até o momento:</p>
       <strong>{{ totalGeral | currency: "BRL":"symbol":"1.2-2" }}</strong>
     </div>
-  </div>
+  </mat-card>
+
+  <mat-card class="form-card">
+    <mat-card-title>Registrar venda</mat-card-title>
+    <form [formGroup]="form" (ngSubmit)="submit()" class="venda-form">
+      <div class="linha">
+        <mat-form-field appearance="outline">
+          <mat-label>Cliente</mat-label>
+          <mat-select formControlName="customerId">
+            <mat-option [value]="''">Cliente balcão</mat-option>
+            <mat-option *ngFor="let cliente of clientes" [value]="cliente.id">
+              {{ cliente.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Forma de pagamento*</mat-label>
+
+          <input matInput formControlName="paymentMethod" />
+        </mat-form-field>
+      </div>
+
+      <div formArrayName="items" class="itens">
+        <div class="item" *ngFor="let item of items.controls; let i = index" [formGroupName]="i">
+          <mat-form-field appearance="outline">
+            <mat-label>Produto*</mat-label>
+            <mat-select formControlName="productId">
+              <mat-option *ngFor="let produto of produtos" [value]="produto.id">{{ produto.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Quantidade*</mat-label>
+            <input matInput type="number" formControlName="quantity" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Preço unitário*</mat-label>
+            <input matInput type="number" formControlName="unitPrice" />
+          </mat-form-field>
+
+          <button mat-icon-button color="warn" type="button" (click)="removeItem(i)">
+            <mat-icon>remove_circle</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <button mat-button type="button" (click)="addItem()">
+        <mat-icon>add_circle</mat-icon>
+        Adicionar item
+      </button>
+
+      <div class="form-acoes">
+        <button mat-raised-button color="primary" type="submit">Registrar venda</button>
+      </div>
+    </form>
+  </mat-card>
 
   <div class="sales-grid">
     <mat-card *ngFor="let venda of vendas">
@@ -18,11 +75,11 @@
           Pedido {{ venda.id }}
         </mat-card-title>
         <mat-card-subtitle>
-          {{ venda.date | date: "short" }} â€¢ {{ venda.paymentMethod }}
+          {{ venda.date | date: "short" }} • {{ venda.paymentMethod }}
         </mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <p><strong>Cliente:</strong> {{ venda.customerName || "Cliente balcÃ£o" }}</p>
+        <p><strong>Cliente:</strong> {{ venda.customerName || "Cliente balcão" }}</p>
         <p><strong>Total da venda:</strong> {{ venda.totalAmount | currency: "BRL":"symbol":"1.2-2" }}</p>
         <table mat-table [dataSource]="venda.items" class="mat-elevation-z1 mat-table">
           <ng-container matColumnDef="produto">
@@ -34,7 +91,7 @@
             <td mat-cell *matCellDef="let item">{{ item.quantity }}</td>
           </ng-container>
           <ng-container matColumnDef="preco">
-            <th mat-header-cell *matHeaderCellDef>PreÃ§o</th>
+            <th mat-header-cell *matHeaderCellDef>Preço</th>
             <td mat-cell *matCellDef="let item">{{ item.unitPrice | currency: "BRL":"symbol":"1.2-2" }}</td>
           </ng-container>
           <ng-container matColumnDef="subtotal">

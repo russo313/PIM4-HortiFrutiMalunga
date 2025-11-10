@@ -1,4 +1,4 @@
-using Hortifruti.Api.Contracts;
+﻿using Hortifruti.Api.Contracts;
 using Hortifruti.Api.Data;
 using Hortifruti.Api.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -17,7 +17,7 @@ public class CustomersController(HortifrutiContext context) : ControllerBase
     {
         var items = await context.Customers
             .AsNoTracking()
-            .Select(c => new CustomerResponse(c.Id, c.Name, c.Phone, c.Email))
+            .Select(c => new CustomerResponse(c.Id, c.Name, c.Phone, c.Email, c.FavoriteProducts))
             .ToListAsync(cancellationToken);
 
         return Ok(items);
@@ -36,7 +36,7 @@ public class CustomersController(HortifrutiContext context) : ControllerBase
             return NotFound();
         }
 
-        return Ok(new CustomerResponse(customer.Id, customer.Name, customer.Phone, customer.Email));
+        return Ok(new CustomerResponse(customer.Id, customer.Name, customer.Phone, customer.Email, customer.FavoriteProducts));
     }
 
     [Authorize]
@@ -52,13 +52,14 @@ public class CustomersController(HortifrutiContext context) : ControllerBase
         {
             Name = request.Name,
             Phone = NormalizePhone(request.Phone),
-            Email = NormalizeEmail(request.Email)
+            Email = NormalizeEmail(request.Email),
+            FavoriteProducts = request.FavoriteProducts
         };
 
         context.Customers.Add(customer);
         await context.SaveChangesAsync(cancellationToken);
 
-        var response = new CustomerResponse(customer.Id, customer.Name, customer.Phone, customer.Email);
+        var response = new CustomerResponse(customer.Id, customer.Name, customer.Phone, customer.Email, customer.FavoriteProducts);
         return CreatedAtAction(nameof(Get), new { id = customer.Id }, response);
     }
 
@@ -80,6 +81,7 @@ public class CustomersController(HortifrutiContext context) : ControllerBase
         customer.Name = request.Name;
         customer.Phone = NormalizePhone(request.Phone);
         customer.Email = NormalizeEmail(request.Email);
+        customer.FavoriteProducts = request.FavoriteProducts;
 
         await context.SaveChangesAsync(cancellationToken);
         return NoContent();

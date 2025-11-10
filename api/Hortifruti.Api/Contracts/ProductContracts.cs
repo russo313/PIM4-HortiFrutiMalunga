@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using Hortifruti.Api.Models;
 
 namespace Hortifruti.Api.Contracts;
@@ -11,7 +11,8 @@ public record ProductRequest(
     DateOnly? ExpirationDate,
     [StringLength(50)] string? Barcode,
     bool Active,
-    [Range(0, double.MaxValue)] decimal? MinimumStock);
+    [Range(0, double.MaxValue)] decimal? MinimumStock,
+    string[]? Highlights);
 
 public record ProductResponse(
     Guid Id,
@@ -23,4 +24,5 @@ public record ProductResponse(
     DateOnly? ExpirationDate,
     string? Barcode,
     bool Active,
-    decimal? MinimumStock);
+    decimal? MinimumStock,
+    string[]? Highlights);

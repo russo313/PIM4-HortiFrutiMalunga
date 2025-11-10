@@ -1,6 +1,40 @@
 ﻿<section class="page">
   <h2>Movimentação de estoque</h2>
-  <p class="muted">Entradas e saídas registradas para ilustrar o controle operacional.</p>
+  <p class="muted">Entradas e saídas registradas para controle operacional.</p>
+
+  <mat-card class="form-card">
+    <mat-card-title>Registrar baixa manual</mat-card-title>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <mat-form-field appearance="outline">
+        <mat-label>Produto*</mat-label>
+        <mat-select formControlName="productId">
+          <mat-option *ngFor="let produto of products" [value]="produto.id">{{ produto.name }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('productId')?.hasError('required')">Selecione o produto</mat-error>
+      </mat-form-field>
+
+      <div class="linha">
+        <mat-form-field appearance="outline">
+          <mat-label>Quantidade*</mat-label>
+          <input matInput type="number" formControlName="quantity" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Motivo*</mat-label>
+          <mat-select formControlName="reason">
+            <mat-option *ngFor="let motivo of reasons" [value]="motivo.value">{{ motivo.label }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Observação</mat-label>
+        <textarea matInput rows="2" formControlName="note"></textarea>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit">Registrar movimentação</button>
+    </form>
+  </mat-card>
 
   <mat-card>
     <table class="data-table">

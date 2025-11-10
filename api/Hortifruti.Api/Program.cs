@@ -29,6 +29,7 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<StockService>();
 builder.Services.AddScoped<SalesService>();
 builder.Services.AddScoped<ReportService>();
+builder.Services.AddScoped<ValidityAlertService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -37,13 +38,13 @@ builder.Services.AddSingleton<TokenService>();
 
 builder.Services.AddDbContext<HortifrutiContext>(options =>
 {
-    var connectionString = builder.Configuration.GetConnectionString("SqlServer");
+    var connectionString = builder.Configuration.GetConnectionString("Postgres");
     if (string.IsNullOrWhiteSpace(connectionString))
     {
-        throw new InvalidOperationException("Configure ConnectionStrings:SqlServer no appsettings ou variavel de ambiente.");
+        throw new InvalidOperationException("Configure ConnectionStrings:Postgres no appsettings ou variavel de ambiente.");
     }
 
-    options.UseSqlServer(connectionString);
+    options.UseNpgsql(connectionString);
 });
 
 builder.Services.AddHealthChecks()

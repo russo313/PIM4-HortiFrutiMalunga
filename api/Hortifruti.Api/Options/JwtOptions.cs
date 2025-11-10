@@ -1,4 +1,4 @@
-namespace Hortifruti.Api.Options;
+﻿namespace Hortifruti.Api.Options;
 
 public class JwtOptions
 {

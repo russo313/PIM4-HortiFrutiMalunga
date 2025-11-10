@@ -1,14 +1,15 @@
 services:
-  sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: hortifruti-sqlserver
+  postgres:
+    image: postgres:16
+    container_name: hortifruti-postgres
     environment:
-      ACCEPT_EULA: "Y"
-      MSSQL_SA_PASSWORD: ${SQLSERVER_SA_PASSWORD:-Your_password123}
+      POSTGRES_USER: ${POSTGRES_USER:-hortifruti}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-Your_password123}
+      POSTGRES_DB: ${POSTGRES_DB:-hortifruti_db}
     ports:
-      - "1433:1433"
+      - "5432:5432"
     volumes:
-      - sqlserver-data:/var/opt/mssql
+      - postgres-data:/var/lib/postgresql/data
 
   api:
     build:
@@ -16,12 +17,12 @@ services:
     container_name: hortifruti-api
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      ConnectionStrings__SqlServer: Server=sqlserver,1433;Database=HortifrutiDb;User Id=sa;Password=${SQLSERVER_SA_PASSWORD:-Your_password123};Encrypt=False;TrustServerCertificate=True;
+      ConnectionStrings__Postgres: Host=postgres;Port=5432;Database=${POSTGRES_DB:-hortifruti_db};Username=${POSTGRES_USER:-hortifruti};Password=${POSTGRES_PASSWORD:-Your_password123}
       Jwt__SecretKey: ${JWT_SECRET_KEY:-alter-me-para-um-segredo-super-seguro-2025}
     depends_on:
-      - sqlserver
+      - postgres
     ports:
       - "8080:8080"
 
 volumes:
-  sqlserver-data:
+  postgres-data:

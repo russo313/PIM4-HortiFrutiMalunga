@@ -1,6 +1,6 @@
-<section class="page">
+﻿<section class="page">
   <h2>Alertas de validade simulados</h2>
-  <p class="muted">Monitoramento ilustrativo dos produtos que exigem atenção por estarem próximos do vencimento.</p>
+  <p class="muted">Monitoramento ilustrativo dos produtos que exigem atenÃ§Ã£o por estarem prÃ³ximos do vencimento.</p>
 
   <mat-card>
     <table class="data-table">
@@ -14,7 +14,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let alert of alerts">
+        <tr *ngFor="let alert of (alerts$ | async) ?? []">
           <td>{{ alert.productName }}</td>
           <td>{{ alert.validUntil | date: "dd/MM/yyyy" }}</td>
           <td>{{ alert.daysRemaining }}</td>

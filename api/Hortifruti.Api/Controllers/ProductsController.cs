@@ -30,7 +30,8 @@ public class ProductsController(HortifrutiContext context) : ControllerBase
                 p.ExpirationDate,
                 p.Barcode,
                 p.Active,
-                p.MinimumStock))
+                p.MinimumStock,
+                p.Highlights))
             .ToListAsync(cancellationToken);
 
         return Ok(products);
@@ -73,7 +74,8 @@ public class ProductsController(HortifrutiContext context) : ControllerBase
             ExpirationDate = request.ExpirationDate,
             Barcode = NormalizeBarcode(request.Barcode),
             Active = request.Active,
-            MinimumStock = request.MinimumStock
+            MinimumStock = request.MinimumStock,
+            Highlights = request.Highlights
         };
 
         context.Products.Add(product);
@@ -107,6 +109,7 @@ public class ProductsController(HortifrutiContext context) : ControllerBase
         product.Barcode = NormalizeBarcode(request.Barcode);
         product.Active = request.Active;
         product.MinimumStock = request.MinimumStock;
+        product.Highlights = request.Highlights;
 
         await context.SaveChangesAsync(cancellationToken);
         return NoContent();
@@ -129,7 +132,8 @@ public class ProductsController(HortifrutiContext context) : ControllerBase
 
     private ProductResponse ToResponse(Product product, string categoryName = "") =>
         new(product.Id, product.Name, product.CategoryId, categoryName, product.SaleType.ToString(),
-            product.UnitOfMeasure, product.ExpirationDate, product.Barcode, product.Active, product.MinimumStock ?? 0);
+            product.UnitOfMeasure, product.ExpirationDate, product.Barcode, product.Active, product.MinimumStock,
+            product.Highlights);
 
     private async Task<ActionResult?> ValidateProductAsync(ProductRequest request, Product? current, CancellationToken cancellationToken)
     {

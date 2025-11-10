@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Hortifruti.Api.Models;
 
@@ -14,4 +14,6 @@ public class Customer
 
     [EmailAddress, StringLength(150)]
     public string? Email { get; set; }
+
+    public string[]? FavoriteProducts { get; set; }
 }

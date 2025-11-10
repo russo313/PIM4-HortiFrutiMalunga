@@ -1,6 +1,6 @@
-<section class="page">
+﻿<section class="page">
   <h2>Categorias do hortifruti</h2>
-  <p class="muted">Veja os segmentos que compõem o catálogo da loja. Cada categoria possui exemplos ilustrativos de uso.</p>
+  <p class="muted">Gerencie os segmentos que organizam o catálogo.</p>
 
   <div class="categorias-grid">
     <mat-card *ngFor="let categoria of categorias">
@@ -12,7 +12,40 @@
         <p class="categoria-descricao">
           {{ categoria.description || "Descrição não informada" }}
         </p>
+        <div class="acoes">
+          <button mat-button color="primary" (click)="startEdit(categoria)">
+            <mat-icon>edit</mat-icon>
+            Editar
+          </button>
+          <button mat-button color="warn" (click)="delete(categoria)">
+            <mat-icon>delete</mat-icon>
+            Excluir
+          </button>
+        </div>
       </mat-card-content>
     </mat-card>
   </div>
+
+  <mat-card class="form-card">
+    <mat-card-title>{{ editing ? "Editar categoria" : "Nova categoria" }}</mat-card-title>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <mat-form-field appearance="outline">
+        <mat-label>Nome*</mat-label>
+        <input matInput formControlName="name" />
+        <mat-error *ngIf="form.get('name')?.hasError('required')">Informe o nome</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Descrição</mat-label>
+        <textarea matInput formControlName="description" rows="3"></textarea>
+      </mat-form-field>
+
+      <div class="form-acoes">
+        <button mat-raised-button color="primary" type="submit" [disabled]="loading">
+          {{ editing ? "Salvar alterações" : "Criar categoria" }}
+        </button>
+        <button mat-button type="button" (click)="cancelEdit()" *ngIf="editing">Cancelar</button>
+      </div>
+    </form>
+  </mat-card>
 </section>

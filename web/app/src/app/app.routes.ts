@@ -7,9 +7,9 @@ import { MovementsComponent } from "./pages/movements/movements.component";
 import { SalesComponent } from "./pages/sales/sales.component";
 import { AlertsComponent } from "./pages/alerts/alerts.component";
 import { LoginComponent } from "./pages/login/login.component";
+import { AboutComponent } from "./pages/about/about.component";
 
 export const routes: Routes = [
-  { path: "login", component: LoginComponent },
   { path: "", component: DashboardComponent },
   { path: "categories", component: CategoriesComponent },
   { path: "products", component: ProductsComponent },
@@ -17,5 +17,7 @@ export const routes: Routes = [
   { path: "movements", component: MovementsComponent },
   { path: "sales", component: SalesComponent },
   { path: "alerts", component: AlertsComponent },
+  { path: "about", component: AboutComponent },
+  { path: "login", component: LoginComponent },
   { path: "**", redirectTo: "" }
 ];

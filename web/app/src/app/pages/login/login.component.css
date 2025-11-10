@@ -1,10 +1,13 @@
-﻿.page mat-card {
-  padding: 2rem;
-  max-width: 640px;
-  margin: 0 auto;
+﻿.page {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+mat-card {
+  padding: 2rem;
+  max-width: 640px;
+  margin: 0 auto;
 }
 
 mat-card-title {
@@ -13,9 +16,36 @@ mat-card-title {
   gap: 0.5rem;
 }
 
-button {
-  align-self: flex-start;
-  display: inline-flex;
-  gap: 0.35rem;
-  text-transform: none;
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+button[mat-raised-button] mat-progress-spinner {
+  margin-left: 0.5rem;
+}
+
+.feedback {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+}
+
+.feedback.success {
+  background: #e8f5e9;
+  color: #1b5e20;
+}
+
+.feedback.error {
+  background: #ffebee;
+  color: #b71c1c;
+}
+
+.credentials {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #4a4a4a;
 }

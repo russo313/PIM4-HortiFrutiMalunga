@@ -1,6 +1,6 @@
-<section class="page">
+﻿<section class="page">
   <h2>Catálogo de produtos</h2>
-  <p class="muted">Exemplo de como os itens são apresentados para os clientes, com informações de estoque e destaques.</p>
+  <p class="muted">Controle o catálogo disponibilizado para o time de vendas.</p>
 
   <div class="products-grid">
     <mat-card *ngFor="let produto of produtos">
@@ -8,21 +8,91 @@
         <mat-icon color="primary">inventory_2</mat-icon>
         {{ produto.name }}
       </mat-card-title>
-      <mat-card-subtitle>
-        {{ produto.categoryName }}
-      </mat-card-subtitle>
+      <mat-card-subtitle>{{ produto.categoryName }}</mat-card-subtitle>
       <mat-card-content class="produto-detalhes">
         <p><strong>Tipo de venda:</strong> {{ saleTypeLabel[produto.saleType] }}</p>
         <p><strong>Unidade:</strong> {{ produto.unitOfMeasure }}</p>
-        <p><strong>Estoque mínimo:</strong> {{ produto.minimumStock ?? "—" }}</p>
-        <p><strong>Validade:</strong> {{ produto.expirationDate || "—" }}</p>
+        <p><strong>Estoque mínimo:</strong> {{ produto.minimumStock ?? "-" }}</p>
+        <p><strong>Validade:</strong> {{ produto.expirationDate || "-" }}</p>
         <p><strong>Status:</strong> {{ produto.active ? "Disponível" : "Indisponível" }}</p>
-        <ng-container *ngIf="produto.highlights?.length">
-          <div class="destaques">
-            <span *ngFor="let destaque of produto.highlights">{{ destaque }}</span>
-          </div>
-        </ng-container>
+        <div class="destaques" *ngIf="produto.highlights?.length">
+          <span *ngFor="let destaque of produto.highlights">{{ destaque }}</span>
+        </div>
+        <div class="acoes">
+          <button mat-button color="primary" (click)="startEdit(produto)">
+            <mat-icon>edit</mat-icon>
+            Editar
+          </button>
+          <button mat-button color="warn" (click)="delete(produto)">
+            <mat-icon>delete</mat-icon>
+            Excluir
+          </button>
+        </div>
       </mat-card-content>
     </mat-card>
   </div>
+
+  <mat-card class="form-card">
+    <mat-card-title>{{ editing ? "Editar produto" : "Novo produto" }}</mat-card-title>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Nome*</mat-label>
+          <input matInput formControlName="name" />
+          <mat-error *ngIf="form.get('name')?.hasError('required')">Informe o nome</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Categoria*</mat-label>
+          <mat-select formControlName="categoryId">
+            <mat-option *ngFor="let categoria of categorias" [value]="categoria.id">
+              {{ categoria.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.get('categoryId')?.hasError('required')">Selecione a categoria</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Tipo de venda*</mat-label>
+          <mat-select formControlName="saleType">
+            <mat-option *ngFor="let tipo of saleTypes" [value]="tipo.value">{{ tipo.label }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Unidade*</mat-label>
+          <input matInput formControlName="unitOfMeasure" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Estoque mínimo</mat-label>
+          <input matInput type="number" formControlName="minimumStock" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Validade</mat-label>
+          <input matInput type="date" formControlName="expirationDate" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Código de barras</mat-label>
+          <input matInput formControlName="barcode" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Destaques (separados por vírgula)</mat-label>
+          <textarea matInput rows="3" formControlName="highlights"></textarea>
+        </mat-form-field>
+      </div>
+
+      <mat-slide-toggle formControlName="active">Produto ativo</mat-slide-toggle>
+
+      <div class="form-acoes">
+        <button mat-raised-button color="primary" type="submit" [disabled]="loading">
+          {{ editing ? "Salvar" : "Adicionar" }}
+        </button>
+        <button mat-button type="button" (click)="cancelEdit()" *ngIf="editing">Cancelar</button>
+      </div>
+    </form>
+  </mat-card>
 </section>

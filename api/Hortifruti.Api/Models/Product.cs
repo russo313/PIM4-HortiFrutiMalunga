@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Hortifruti.Api.Models;
@@ -34,6 +34,8 @@ public class Product
 
     [Column(TypeName = "decimal(18,3)")]
     public decimal? MinimumStock { get; set; }
+
+    public string[]? Highlights { get; set; }
 
     public Category? Category { get; set; }
 }

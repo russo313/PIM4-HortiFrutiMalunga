@@ -1,5 +1,16 @@
-﻿
-.page mat-card {
-  padding: 1.5rem;
+﻿form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
+.form-card {
+  margin-bottom: 2rem;
+  padding: 2rem;
+}
+
+.linha {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}

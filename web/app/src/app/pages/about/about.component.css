@@ -1,0 +1,20 @@
+﻿.about {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+mat-card {
+  padding: 1.5rem;
+}
+
+mat-card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}

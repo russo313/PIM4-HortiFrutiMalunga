@@ -25,13 +25,21 @@ public class HortifrutiContext(DbContextOptions<HortifrutiContext> options) : Db
             .HasIndex(p => p.Name)
             .HasDatabaseName("IX_Product_Name");
 
+        modelBuilder.Entity<Product>()
+            .Property(p => p.Highlights)
+            .HasColumnType("text[]");
+
         modelBuilder.Entity<Customer>()
             .HasIndex(c => c.Name)
             .HasDatabaseName("IX_Customer_Name");
 
+        modelBuilder.Entity<Customer>()
+            .Property(c => c.FavoriteProducts)
+            .HasColumnType("text[]");
+
         modelBuilder.Entity<StockMovement>()
             .Property(m => m.Quantity)
-            .HasColumnType("decimal(18,3)");
+            .HasPrecision(18, 3);
 
         modelBuilder.Entity<ValidityAlert>()
             .HasIndex(a => new { a.ProductId, a.ValidUntil })

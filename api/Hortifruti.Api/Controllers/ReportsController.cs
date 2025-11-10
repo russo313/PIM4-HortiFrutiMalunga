@@ -1,4 +1,4 @@
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text;
 using Hortifruti.Api.Contracts;
 using Hortifruti.Api.Services;

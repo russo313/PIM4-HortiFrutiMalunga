@@ -1,4 +1,4 @@
-namespace Hortifruti.Api.Contracts;
+﻿namespace Hortifruti.Api.Contracts;
 
 public record ValidityAlertResponse(
     Guid Id,
