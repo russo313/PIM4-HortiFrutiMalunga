@@ -72,10 +72,13 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? new[] { "http://localhost:4200" };
+
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
-        policy.WithOrigins(builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? new[] { "http://localhost:4200" })
+        policy
+            .SetIsOriginAllowed(origin => CorsOriginMatches(origin, allowedOrigins))
             .AllowAnyHeader()
             .AllowAnyMethod());
 });
@@ -104,6 +107,55 @@ app.MapControllers();
 app.MapHealthChecks("/health", new HealthCheckOptions());
 
 app.Run();
+
+static bool CorsOriginMatches(string? origin, string[] allowedOrigins)
+{
+    if (string.IsNullOrWhiteSpace(origin))
+    {
+        return false;
+    }
+
+    var normalizedOrigin = origin.TrimEnd('/');
+    foreach (var allowed in allowedOrigins)
+    {
+        if (string.IsNullOrWhiteSpace(allowed))
+        {
+            continue;
+        }
+
+        var normalizedAllowed = allowed.TrimEnd('/');
+        if (!normalizedAllowed.Contains('*', StringComparison.Ordinal))
+        {
+            if (string.Equals(normalizedOrigin, normalizedAllowed, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            continue;
+        }
+
+        if (!Uri.TryCreate(origin, UriKind.Absolute, out var originUri))
+        {
+            continue;
+        }
+
+        var schemeSeparatorIndex = normalizedAllowed.IndexOf("://", StringComparison.Ordinal);
+        var patternHost = schemeSeparatorIndex >= 0
+            ? normalizedAllowed[(schemeSeparatorIndex + 3)..]
+            : normalizedAllowed;
+
+        if (patternHost.StartsWith("*.", StringComparison.Ordinal))
+        {
+            var domain = patternHost[2..];
+            if (originUri.Host.EndsWith(domain, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
 
 
 
