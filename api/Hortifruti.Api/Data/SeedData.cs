@@ -116,7 +116,7 @@ public static class SeedData
 
     public static async Task InitializeAsync(HortifrutiContext context, CancellationToken ct = default)
     {
-        await context.Database.EnsureCreatedAsync(ct);
+        await context.Database.MigrateAsync(ct);
 
         await EnsureCategoriesAsync(context, ct);
         await EnsureProductsAsync(context, ct);
