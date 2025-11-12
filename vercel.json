@@ -1,13 +1,8 @@
-﻿{
-  "$schema": "https://openapi.vercel.sh/vercel.json",
+{
   "rewrites": [
     {
-      "source": "/api",
-      "destination": "https://pim4-hortifrutimalunga.onrender.com/api"
-    },
-    {
-      "source": "/api/(.*)",
-      "destination": "https://pim4-hortifrutimalunga.onrender.com/api/$1"
+      "source": "/api/:path*",
+      "destination": "https://pim4-hortifrutimalunga.onrender.com/api/:path*"
     }
   ]
 }
