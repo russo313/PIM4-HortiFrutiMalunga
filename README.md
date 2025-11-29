@@ -89,3 +89,4 @@ Use o token JWT retornado para acessar as demais rotas (`Authorization: Bearer .
 - Orientações oficiais `docs/pim4tudao-20250830T001202Z-1-001/ADS_2025_2_PIM_IV_QUARTO_E_TERCEIRO_SEMESTRES - BRASÍLIA.pdf`
 
 
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
