@@ -88,8 +88,19 @@ Use o token JWT retornado para acessar as demais rotas (`Authorization: Bearer .
 - Plano de ação `docs/pim4tudao-20250830T001202Z-1-001/📌 Plano de Ação – PIM IV (Continuidade).pdf`
 - Orientações oficiais `docs/pim4tudao-20250830T001202Z-1-001/ADS_2025_2_PIM_IV_QUARTO_E_TERCEIRO_SEMESTRES - BRASÍLIA.pdf`
 
+# 👩‍💻 Contribuidores do Projeto:
 
-
+<!-- Foto dos participantes do grupo -->
+<div align="center">
+  <table>
+      <tr>
+            <td align="center"><a href="https://github.com/TeuzLins"><img style="border-radius: 50%;" src="https://github.com/TeuzLins.png" width="100px;" alt=""/><br /><sub><b>Teuz Lins</b></sub></a><br /><a href="https://github.com/TeuzLins" title="Rocketseat">Desenvolvedor Backend</a></td>
+                  <td align="center"><a href="https://github.com/ArthurHelder"><img style="border-radius: 50%;" src="https://github.com/ArthurHelder.png" width="100px;" alt=""/><br /><sub><b>Arthur Helder</b></sub></a><br /><a href="https://github.com/ArthurHelder">Desenvolvedor Backend</a></td>
+                        <td align="center"><a href="https://github.com/russo313"><img style="border-radius: 50%;" src="https://github.com/russo313.png" width="100px;" alt=""/><br /><sub><b>Russo </b></sub></a><br /><a href="https://github.com/russo313" title="Rocketseat">Líder - Product Owner e Coordenador do setor de Backend</a></td>
+                              </tr>
+                                    <tr>
+                                          <td align="center"><a href="https://github.com/Dantas061"><img style="border-radius: 50%;" src="https://github.com/Dantas061.png" width="100px;" alt=""/><br /><sub><b>Dantas </b></sub></a><br /><a href="https://github.com/Dantas061" title="Rocketseat">Desenvolvedor Frontend</a></td>
+              
 ## License
 Este projeto está sob a MIT License.  
 Consulte o arquivo [LICENSE](./LICENSE) para mais detalhes.
